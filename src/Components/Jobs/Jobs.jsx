@@ -60,20 +60,28 @@ ErrorMessage.propTypes = {
 };
 
 function Job({ job }) {
-  const { title, description } = job;
+  const { company, date, job_description, job_title, job_type, location } = job;
   return (
     <div className="job-container">
-      <h2>{title}</h2>
-      <p>{description}</p>
+      <h2>{job_title} at {company}</h2>
+      <p><strong>Type:</strong> {job_type}</p>
+      <p><strong>Description:</strong> {job_description}</p>
+      <p><strong>Location:</strong> {location}</p>
+      <p><strong>Date:</strong> {date}</p>
     </div>
   );
 }
 Job.propTypes = {
   job: propTypes.shape({
-    title: propTypes.string.isRequired,
-    description: propTypes.string.isRequired,
+    company: propTypes.string.isRequired,
+    date: propTypes.string.isRequired,
+    job_description: propTypes.string.isRequired,
+    job_title: propTypes.string.isRequired,
+    job_type: propTypes.string.isRequired,
+    location: propTypes.string.isRequired,
   }).isRequired,
 };
+
 
 // function jobsObjectToArray({ Data }) {
 //   return Object.keys(Data).map(key => Data[key]);
@@ -89,8 +97,9 @@ function Jobs() {
 
     axios.get(`${JOBS_ENDPOINT}?numbers=${numbers}`)
       .then(({ data }) => {
+        console.log(data);
         setJobs(data);
-        console.log("hi");
+        
       })
       .catch((error) => {
         console.error('Error fetching jobs:', error);

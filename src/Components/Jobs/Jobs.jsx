@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { BACKEND_URL } from '../../constants';
 
-const JOBS_ENDPOINT = `${BACKEND_URL}/jobs`;
+const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
 
 function AddJobForm({
   visible,
@@ -75,9 +75,9 @@ Job.propTypes = {
   }).isRequired,
 };
 
-function jobsObjectToArray({ Data }) {
-  return Object.keys(Data).map(key => Data[key]);
-}
+// function jobsObjectToArray({ Data }) {
+//   return Object.keys(Data).map(key => Data[key]);
+// }
 
 function Jobs() {
   const [error, setError] = useState('');
@@ -85,10 +85,20 @@ function Jobs() {
   const [addingJob, setAddingJob] = useState(false);
 
   const fetchJobs = () => {
-    axios.get(JOBS_ENDPOINT)
-      .then(({ data }) => setJobs(jobsObjectToArray(data)))
-      .catch(() => setError('There was a problem retrieving the list of job postings.'));
+    const numbers = 5;
+
+    axios.get(`${JOBS_ENDPOINT}?numbers=${numbers}`)
+      .then(({ data }) => {
+        setJobs(data);
+        console.log("hi");
+      })
+      .catch((error) => {
+        console.error('Error fetching jobs:', error);
+        setError('There was a problem retrieving the list of job postings.');
+      });
   };
+
+  useEffect(fetchJobs, []);
 
   const showAddJobForm = () => { setAddingJob(true); };
   const hideAddJobForm = () => { setAddingJob(false); };

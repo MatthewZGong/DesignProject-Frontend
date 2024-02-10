@@ -150,17 +150,48 @@ nav a:focus {
   outline: none;
 }
 
-.game-container {
-  border: 2px solid var(--accent-color);
-  margin: 1rem 0;
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 150px;
-  border-radius: 5px;
-}
-
-.game-container p,
-.game-container h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
+.job-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .title-container {
+    text-align: center;
+  }
+  
+  .content-container {
+    display: flex;
+  }
+  
+  .left-column,
+  .right-column {
+    flex: 1;
+  }
+  
+  .left-column {
+    padding-right: 20px;
+  }
+  
+  .right-column {
+    padding-left: 20px;
+  }
+  
+  .job-container h2 {
+    color: #333;
+  }
+  
+  .job-container p {
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  .job-container strong {
+    color: #007bff;
+  }

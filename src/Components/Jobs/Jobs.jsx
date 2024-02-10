@@ -62,13 +62,21 @@ ErrorMessage.propTypes = {
 function Job({ job }) {
   const { company, date, job_description, job_title, job_type, location } = job;
   return (
-    <div className="job-container">
-      <h2>{job_title} at {company}</h2>
-      <p><strong>Type:</strong> {job_type}</p>
-      <p><strong>Description:</strong> {job_description}</p>
-      <p><strong>Location:</strong> {location}</p>
-      <p><strong>Date:</strong> {date}</p>
-    </div>
+            <div className="job-container">
+            <div className="title-container">
+                <h2>{job_title} at {company}</h2>
+            </div>
+            <div className="content-container">
+                <div className="left-column">
+                <p><strong>Type:</strong> {job_type}</p>
+                <p><strong>Description:</strong> {job_description}</p>
+                </div>
+                <div className="right-column">
+                <p><strong>Location:</strong> {location}</p>
+                <p><strong>Date:</strong> {date}</p>
+                </div>
+            </div>
+            </div>
   );
 }
 Job.propTypes = {

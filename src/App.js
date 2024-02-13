@@ -10,6 +10,7 @@ import './App.css';
 import Navbar from './Components/Navbar';
 import Jobs from './Components/Jobs';
 import Login from './Components/Login';
+import CreateAccount from './Components/CreateAccount';
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="jobs" element={<Jobs />} />
         <Route path="login" element={<Login />} />
+        <Route path="createAccount" element={<CreateAccount />} />
       </Routes>
     </BrowserRouter>
   );

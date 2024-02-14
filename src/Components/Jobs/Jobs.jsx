@@ -6,36 +6,65 @@ import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
 
+const formatDate = (date) => {
+  let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+};
+
 function AddJobForm({
   visible,
   cancel,
   fetchJobs,
   setError,
 }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
 
-  const changeTitle = (event) => { setTitle(event.target.value); };
-  const changeDescription = (event) => { setDescription(event.target.value); };
+  const [title, setTitle] = useState('');
+  const [company, setCompany] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
+  const [jobType, setJobType] = useState('');
+  const [location, setLocation] = useState('');
+  const [date, setDate] = useState(formatDate(new Date()));
+
+  const handleChange = (setter) => (event) => setter(event.target.value);
 
   const addJob = (event) => {
     event.preventDefault();
-    axios.post(JOBS_ENDPOINT, { title, description })
-      .then(fetchJobs)
-      .catch(() => { setError('There was a problem adding the job posting.'); });
+    axios.post(JOBS_ENDPOINT, { 
+      job_title: title, 
+      company, 
+      job_description: jobDescription, 
+      job_type: jobType, 
+      location, 
+      date 
+    })
+    .then(fetchJobs)
+    .catch(() => { setError('There was a problem adding the job posting.'); });
   };
 
   if (!visible) return null;
   return (
     <form onSubmit={addJob}>
-      <label htmlFor="title">
-        Job Title
-      </label>
-      <input required type="text" id="title" value={title} onChange={changeTitle} />
-      <label htmlFor="description">
-        Job Description
-      </label>
-      <textarea required id="description" value={description} onChange={changeDescription} />
+      <label htmlFor="company">Company</label>
+      <input required type="text" id="company" value={company} onChange={handleChange(setCompany)} />
+      <label htmlFor="job_title">Job Title</label>
+      <input required type="text" id="job_title" value={title} onChange={handleChange(setTitle)} />
+      <label htmlFor="job_type">Job Type</label>
+      <input required type="text" id="job_type" value={jobType} onChange={handleChange(setJobType)} />
+      <label htmlFor="location">Location</label>
+      <input required type="text" id="location" value={location} onChange={handleChange(setLocation)} />
+      <label htmlFor="date">Date</label>
+      <input required type="date" id="date" value={date} onChange={handleChange(setDate)} />
+      <label htmlFor="job_description">Job Description</label>
+      <input required id="job_description" value={jobDescription} onChange={handleChange(setJobDescription)} />
       <button type="button" onClick={cancel}>Cancel</button>
       <button type="submit">Submit</button>
     </form>

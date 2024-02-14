@@ -121,6 +121,8 @@ function Jobs() {
   const hideAddJobForm = () => { setAddingJob(false); };
 
   useEffect(fetchJobs, []);
+  
+  const reversedJobs = [...jobs].reverse();
 
   return (
     <div className="wrapper">
@@ -135,7 +137,7 @@ function Jobs() {
         setError={setError}
       />
       {error && <ErrorMessage message={error} />}
-      {jobs.map((job) => <Job key={job.title} job={job} />)}
+      {reversedJobs.map((job) => <Job key={job.title} job={job} />)}
     </div>
   );
 }

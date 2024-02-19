@@ -195,3 +195,50 @@ nav a:focus {
   .job-container strong {
     color: #007bff;
   }
+
+  .add-job-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-job-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333; /* Label text color */
+  }
+  
+  .add-job-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-job-form button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  
+  .add-job-form button:hover {
+    background-color: #45a049;
+  }
+  
+  .add-job-form button[type="button"] {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .add-job-form button[type="button"]:hover {
+    background-color: #bbb;
+  }

@@ -56,7 +56,7 @@ function AddJobForm({
 
   if (!visible) return null;
   return (
-    <form onSubmit={addJob}>
+    <form onSubmit={addJob} className="add-job-form">
       <label htmlFor="company">Company</label>
       <input required type="text" id="company" value={company} onChange={handleChange(setCompany)} />
       <label htmlFor="job_title">Job Title</label>

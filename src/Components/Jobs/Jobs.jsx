@@ -5,7 +5,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
-
+const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add-new-job`;
 const formatDate = (date) => {
   let d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -37,17 +37,21 @@ function AddJobForm({
   const handleChange = (setter) => (event) => setter(event.target.value);
 
   const addJob = (event) => {
+    console.error('adding job');
+    console.error({ title, company, jobDescription, jobType, location, date });
     event.preventDefault();
-    axios.post(JOBS_ENDPOINT, { 
-      job_title: title, 
-      company, 
-      job_description: jobDescription, 
-      job_type: jobType, 
-      location, 
-      date 
+    axios.post(ADD_JOB_ENDPOINT, null, { params:{
+      "job_title": title, 
+      "company": company, 
+      "job_description": jobDescription, 
+      "job_type": jobType, 
+      "location": location, 
+      "date":  date.toString()
+    }
     })
     .then(fetchJobs)
-    .catch(() => { setError('There was a problem adding the job posting.'); });
+    .catch(() => { setError('There was a problem adding the job posting.' )});
+
   };
 
   if (!visible) return null;
@@ -143,6 +147,7 @@ function Jobs() {
         setError('There was a problem retrieving the list of job postings.');
       });
   };
+
 
   useEffect(fetchJobs, []);
 

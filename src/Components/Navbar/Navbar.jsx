@@ -28,6 +28,9 @@ function Navbar() {
     <nav>
       <ul className="wrapper">
         {PAGES.map((page) => <NavLink key={page.destination} page={page} />)}
+        <li className="nav_bar_login">
+            <Link to={'/login'}>{'Login'}</Link>
+        </li>
       </ul>
     </nav>
   );

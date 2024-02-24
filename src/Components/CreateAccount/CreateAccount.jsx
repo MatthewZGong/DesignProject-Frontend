@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+import { BACKEND_URL } from '../../constants';
+
+const CREATE_ACCOUNT_ENDPOINT = `${BACKEND_URL}/create-account`;
 
 function CreateAccount() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -15,11 +24,18 @@ function CreateAccount() {
       return;
     }
 
-    // send data to backend
-    console.log('Creating account with username:', username, 'and password:', password);
-    setUsername('');
-    setPassword('');
-    setConfirmPassword('');
+    try {
+      const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, {
+        username: username,
+        email: email,
+        password: password,
+      });
+      console.log('Account created successfully:', response.data);
+      navigate('/');
+    } catch (error) {
+      console.error('There was an error creating the account:', error);
+      setError(error.response?.data?.message || 'Failed to create account. Please try again.');
+    }
   };
 
   return (
@@ -33,6 +49,15 @@ function CreateAccount() {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>

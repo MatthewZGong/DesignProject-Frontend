@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function CreateAccount() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,11 +18,8 @@ function CreateAccount() {
       return;
     }
 
-    // send data to backend
     console.log('Creating account with username:', username, 'and password:', password);
-    setUsername('');
-    setPassword('');
-    setConfirmPassword('');
+    navigate('/');
   };
 
   return (

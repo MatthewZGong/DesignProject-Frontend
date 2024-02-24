@@ -33,6 +33,8 @@ function Login() {
         </div>
         <button type="submit">Login</button>
       </form>
+      <br></br>
+      <button onClick={() => window.location.href = '/createAccount'}>Create Account</button>
     </div>
   );
 }

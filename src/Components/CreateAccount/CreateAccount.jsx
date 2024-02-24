@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+import { BACKEND_URL } from '../../constants';
+
+const CREATE_ACCOUNT_ENDPOINT = `${BACKEND_URL}/create-account`;
 
 function CreateAccount() {
   const [username, setUsername] = useState('');
@@ -10,7 +15,7 @@ function CreateAccount() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -19,8 +24,18 @@ function CreateAccount() {
       return;
     }
 
-    console.log('Creating account with username:', username, 'and password:', password);
-    navigate('/');
+    try {
+      const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, {
+        username: username,
+        email: email,
+        password: password,
+      });
+      console.log('Account created successfully:', response.data);
+      navigate('/');
+    } catch (error) {
+      console.error('There was an error creating the account:', error);
+      setError(error.response?.data?.message || 'Failed to create account. Please try again.');
+    }
   };
 
   return (

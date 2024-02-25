@@ -12,6 +12,7 @@ import Jobs from './Components/Jobs';
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
 import Home from './Components/Home';
+import UpdatePreferences from './Components/UpdatePreferences';
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
         <Route path="jobs" element={<Jobs />} />
         <Route path="login" element={<Login />} />
         <Route path="createAccount" element={<CreateAccount />} />
+        <Route path="updatePreferences" element={<UpdatePreferences />} />
       </Routes>
     </BrowserRouter>
   );

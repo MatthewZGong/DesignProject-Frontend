@@ -50,7 +50,7 @@ function AddJobForm({
     }
     })
     .then(fetchJobs)
-    .catch(() => { setError('There was a problem adding the job posting.' )});
+    .catch(() => { setError('There was a problem adding the job posting.')});
 
   };
 
@@ -144,7 +144,7 @@ function Jobs() {
       })
       .catch((error) => {
         console.error('Error fetching jobs:', error);
-        setError('There was a problem retrieving the list of job postings.');
+        setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
       });
   };
 

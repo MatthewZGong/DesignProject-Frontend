@@ -6,9 +6,9 @@ function Login() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send the data to the backend for authenticaton and determine it is user or admin
+    // Send the data to the backend for authenticaton
     console.log({ username, password });
-    // Redirect the user to user webpage or admin webpage
+    // Redirect the user to user webpage
     
     navigate('/User');
   };

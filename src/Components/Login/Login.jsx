@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send the data to the backend for authenticaton
+    // Send the data to the backend for authenticaton and determine it is user or admin
     console.log({ username, password });
-    // Redirect the user to another page, etc.
+    // Redirect the user to user webpage or admin webpage
+    
+    navigate('/User');
   };
   return (
     <div>

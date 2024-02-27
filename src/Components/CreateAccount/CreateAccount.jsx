@@ -26,13 +26,21 @@ function CreateAccount() {
 
     try {
       const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, {
-        username: username,
-        email: email,
-        password: password,
-      });
+        params: {
+        "username": username,
+        "email": email,
+        "password": password,
+        }
+       });
+      console.log(username);
+      console.log(email);
+      console.log(password);
       console.log('Account created successfully:', response.data);
       navigate('/');
     } catch (error) {
+      console.log(username);
+      console.log(email);
+      console.log(password);
       console.error('There was an error creating the account:', error);
       setError(error.response?.data?.message || 'Failed to create account. Please try again.');
     }

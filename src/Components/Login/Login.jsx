@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BACKEND_URL } from '../../constants';
+
+const LOGIN_ENDPOINT = `${BACKEND_URL}/login-to-account`;
+
 function Login() {
-  const [username, setUsername] = useState('');
+  const [user_id, setuser_id] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Send the data to the backend for authenticaton
-    console.log({ username, password });
-    // Redirect the user to user webpage
-    
-    navigate('/User');
+    try {
+      const response = await axios.put(LOGIN_ENDPOINT, {
+        params: {
+        "user_id": user_id,
+        "password": password,
+        }
+       });
+      console.log('Account created successfully:', response.data);
+      navigate('/User');
+    } catch (error) {
+      console.log(user_id);
+      console.log(password);
+      console.error('There was an error logging in:', error);
+      setError(error.response?.data?.message || 'Failed to login to account. Please try again.');
+    }
   };
   return (
     <div>
       <h2>Login Page</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="user_id">user_id:</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="user_id"
+            value={user_id}
+            onChange={(e) => setuser_id(e.target.value)}
           />
         </div>
         <div>
@@ -34,6 +51,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
         <button type="submit">Login</button>
       </form>
       <br></br>

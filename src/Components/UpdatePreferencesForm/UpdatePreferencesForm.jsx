@@ -43,7 +43,6 @@ function UpdatePreferencesForm() {
 
   return (
     <div>
-      <h2>Create Account</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="userid">Userid:</label>

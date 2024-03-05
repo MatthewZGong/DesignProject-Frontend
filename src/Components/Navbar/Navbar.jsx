@@ -6,7 +6,6 @@ const PAGES = [
   { label: 'Home', destination: '/' },
   { label: 'View All Jobs', destination: '/jobs' },
   { label: 'View All Users', destination: '/users' },
-  { label: 'View Jobs by Preference', destination: '/UpdatePreferences' },
 ];
 
 function NavLink({ page }) {

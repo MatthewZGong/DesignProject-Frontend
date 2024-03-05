@@ -25,14 +25,12 @@ function CreateAccount() {
     }
 
     try {
-      const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, {
-        params: {
+      const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, null, {params:{
         "username": username,
         "email": email,
         "password": password,
-        }
-       });
-      console.log(username);
+       }
+      })
       console.log(email);
       console.log(password);
       console.log('Account created successfully:', response.data);

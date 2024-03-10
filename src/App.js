@@ -14,6 +14,7 @@ import CreateAccount from './Components/CreateAccount';
 import Home from './Components/Home';
 import UpdatePreferences from './Components/UpdatePreferences';
 import User from './Components/User';
+// import DeleteUser from './Components/DeleteUser';
 import UpdatePreferencesForm from './Components/UpdatePreferencesForm';
 import UpdateInformation from './Components/UpdateInformation';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="updatePreferencesForm" element={<UpdatePreferencesForm />} />
         <Route path="updateInformation" element={<UpdateInformation />} />
         <Route path="user" element={<User />} />
+        {/* <Route path="DeleteUser" element={<DeleteUser />} /> */}
       </Routes>
       </AuthProvider>
     </BrowserRouter>

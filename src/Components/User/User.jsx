@@ -26,6 +26,9 @@ function User() {
     navigate('/UpdatePreferences')
   };
 
+  // const DeleteUser = () => {
+  //   navigate('/DeleteUser')
+  // };
 
   return (
     <div>
@@ -39,7 +42,7 @@ function User() {
       <button onClick={UpdateUserInformation}>Update User Information</button>
       <button onClick={UpdateUserPreference}>Update User Preference</button>
       <button onClick={ViewJobsbyPreference}>View Jobs by Preference</button>
-      
+      {/* <button onClick={DeleteUser}>DeleteUser</button> */}
 
     </div>
 

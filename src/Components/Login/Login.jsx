@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constants';
 
-const LOGIN_ENDPOINT = `${BACKEND_URL}/login-to-account`;
+const LOGIN_ENDPOINT = `${BACKEND_URL}/login`;
 
 function Login() {
-  const [user_id, setuser_id] = useState('');
+  const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -14,16 +14,16 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(LOGIN_ENDPOINT, {
+      const response = await axios.get(LOGIN_ENDPOINT, {
         params: {
-        "user_id": user_id,
+        "username": username,
         "password": password,
         }
        });
       console.log('Account created successfully:', response.data);
       navigate('/User');
     } catch (error) {
-      console.log(user_id);
+      console.log(username);
       console.log(password);
       console.error('There was an error logging in:', error);
       setError(error.response?.data?.message || 'Failed to login to account. Please try again.');
@@ -34,12 +34,12 @@ function Login() {
       <h2>Login Page</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="user_id">user_id:</label>
+          <label htmlFor="username">username:</label>
           <input
             type="text"
-            id="user_id"
-            value={user_id}
-            onChange={(e) => setuser_id(e.target.value)}
+            id="username"
+            value={username}
+            onChange={(e) => setusername(e.target.value)}
           />
         </div>
         <div>

@@ -20,6 +20,11 @@ function Login() {
         "password": password,
         }
        });
+       //using response.data please use localstorage so that it can be accessed from other files
+       const info = response.data.message
+       //use local storage
+       localStorage.setItem('user_id', info);
+
       console.log('Account created successfully:', response.data);
       navigate('/User');
     } catch (error) {

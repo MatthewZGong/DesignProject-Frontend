@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constants';
+import { useAuth } from '../../AuthContext';
 
 const LOGIN_ENDPOINT = `${BACKEND_URL}/login`;
 
@@ -9,7 +10,7 @@ function Login() {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
+  const { login } = useAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,10 +23,9 @@ function Login() {
        });
        //using response.data please use localstorage so that it can be accessed from other files
        const info = response.data.message
-       //use local storage
-       localStorage.setItem('user_id', info);
 
       console.log('Account created successfully:', response.data);
+      login(info);
       navigate('/User');
     } catch (error) {
       console.log(username);

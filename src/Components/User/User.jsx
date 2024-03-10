@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
 function User() {
   const [name] = useState('Name'); //from backend get its name
   const [userType] = useState('user'); //from backend get its usertype(admin or user)
   const [jobType] = useState('Type of jobs');//from backend get its job type
   const [jobLocation] = useState('Location of jobs');//from backend get its job location
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  React.useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
   
   const UpdateUserInformation = () => {
     //redirect to another endpoint
@@ -19,10 +26,6 @@ function User() {
     navigate('/UpdatePreferences')
   };
 
-  const LogOut = () => {
-    localStorage.removeItem('user_id');
-    navigate('/')
-  }
 
   return (
     <div>
@@ -37,7 +40,7 @@ function User() {
       <button onClick={UpdateUserPreference}>Update User Preference</button>
       <button onClick={ViewJobsbyPreference}>View Jobs by Preference</button>
       
-      <button onClick={LogOut}>Log Out</button>
+
     </div>
 
   );

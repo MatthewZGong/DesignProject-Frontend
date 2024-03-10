@@ -17,9 +17,12 @@ import User from './Components/User';
 import UpdatePreferencesForm from './Components/UpdatePreferencesForm';
 import UpdateInformation from './Components/UpdateInformation';
 
+import { AuthProvider } from './AuthContext';
+
 function App() {
   return (
     <BrowserRouter>
+     <AuthProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,6 +34,7 @@ function App() {
         <Route path="updateInformation" element={<UpdateInformation />} />
         <Route path="user" element={<User />} />
       </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

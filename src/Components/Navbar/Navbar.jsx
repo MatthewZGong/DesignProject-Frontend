@@ -1,6 +1,9 @@
-import React from 'react';
+import React  from 'react';
 import propTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link }  from 'react-router-dom';
+
+import { useAuth } from '../../AuthContext';
+
 
 const PAGES = [
   { label: 'Home', destination: '/' },
@@ -24,17 +27,27 @@ NavLink.propTypes = {
 };
 
 function Navbar() {
-
-  const user_id = localStorage.getItem('user_id');
+   
+   
+  const { isLoggedIn, logout } = useAuth();
+  
   return (
     <nav>
       <ul className="wrapper">
         {PAGES.map((page) => <NavLink key={page.destination} page={page} />)}
 
         {}
-        <li className="nav_bar_login">
-            <Link to={user_id ? '/User' : '/login'}>{user_id ? 'User' : 'Login'}</Link>
+        <ul className="nav_bar_login">
+        <li>
+          <Link to={isLoggedIn ? '/user' : '/login'}>{isLoggedIn ? 'User' : 'Login'}</Link>
         </li>
+        {isLoggedIn && (
+          <li>
+            <Link to={'/'} onClick={logout}>Logout</Link>
+          </li>
+        )}
+        </ul>
+
       </ul>
     </nav>
   );

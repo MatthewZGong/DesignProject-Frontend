@@ -19,6 +19,11 @@ function User() {
     navigate('/UpdatePreferences')
   };
 
+  const LogOut = () => {
+    localStorage.removeItem('user_id');
+    navigate('/')
+  }
+
   return (
     <div>
       <h1>Hello, {name}</h1>
@@ -31,7 +36,10 @@ function User() {
       <button onClick={UpdateUserInformation}>Update User Information</button>
       <button onClick={UpdateUserPreference}>Update User Preference</button>
       <button onClick={ViewJobsbyPreference}>View Jobs by Preference</button>
+      
+      <button onClick={LogOut}>Log Out</button>
     </div>
+
   );
 }
 

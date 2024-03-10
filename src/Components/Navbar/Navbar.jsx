@@ -24,13 +24,16 @@ NavLink.propTypes = {
 };
 
 function Navbar() {
+
+  const user_id = localStorage.getItem('user_id');
   return (
     <nav>
       <ul className="wrapper">
         {PAGES.map((page) => <NavLink key={page.destination} page={page} />)}
+
+        {}
         <li className="nav_bar_login">
-            <Link to={'/login'}>{'Login'}</Link>
-        
+            <Link to={user_id ? '/User' : '/login'}>{user_id ? 'User' : 'Login'}</Link>
         </li>
       </ul>
     </nav>

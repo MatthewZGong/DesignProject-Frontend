@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constants';
 const Read_Most_Recent_Jobs_Endpoint = `${BACKEND_URL}/READ_MOST_RECENT_JOBS`;
+const User_Report_Endpoint = `${BACKEND_URL}/USER_REPORT`;
 function JobsByPreferences() {
   const [numDays, setNumDays] = useState('');
   const [jobs, setJobs] = useState([]);
@@ -28,7 +29,24 @@ function JobsByPreferences() {
     }
   };
 
-  
+  const handleSubmitReport = async () => {
+    if (!userId || !jobId || !report) {
+      alert("Please fill in all fields before submitting.");
+      return;
+    }
+
+    try {
+      await axios.post(User_Report_Endpoint, {
+        user_id: userId,
+        job_id: jobId,
+        report: report,
+      });
+      alert("Report submitted successfully!");
+    } catch (err) {
+      console.error("Error submitting report:", err);
+      setError("Failed to submit report. Please try again.");
+    }
+  };
 
   return (
     <div>

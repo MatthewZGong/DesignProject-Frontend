@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
-
+import { useAuth } from '../../AuthContext';
 import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
@@ -33,6 +33,7 @@ function AddJobForm({
   const [jobType, setJobType] = useState('');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState(formatDate(new Date()));
+
 
   const handleChange = (setter) => (event) => setter(event.target.value);
 
@@ -132,6 +133,7 @@ function Jobs() {
   const [error, setError] = useState('');
   const [jobs, setJobs] = useState([]);
   const [addingJob, setAddingJob] = useState(false);
+  const { isLoggedIn } = useAuth();
 //   const [numberJobs, setNumberJobs] = useState('');
 
   let number_jobs =5;
@@ -148,6 +150,10 @@ function Jobs() {
         setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
       });
   };
+
+//   const fetchJobByPrefernces = (query) => {
+      
+//   }
   const handleJobCountChange = (e) => {
     // Ensure only positive integers are accepted
     var value = e.target.value.replace(/\D/, ''); // remove non-digit characters
@@ -172,7 +178,9 @@ function Jobs() {
     <div className="wrapper">
       <header>
         <h1>View All Job Postings</h1>
+        {isLoggedIn && (
         <button type="button" onClick={showAddJobForm}>Add a Job Posting</button>
+      )}
 
       </header>
       <label htmlFor="recentJobsInput">Recent </label>

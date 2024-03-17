@@ -6,6 +6,9 @@ function JobsByPreferences() {
   const [numDays, setNumDays] = useState('');
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState('');
+  const [userId, setUserId] = useState('');
+  const [jobId, setJobId] = useState('');
+  const [report, setReport] = useState('');
 
   const handleShowJobs = async () => {
     if (!numDays) {
@@ -24,6 +27,8 @@ function JobsByPreferences() {
       setError("Failed to fetch jobs. Please try again.");
     }
   };
+
+  
 
   return (
     <div>
@@ -52,6 +57,26 @@ function JobsByPreferences() {
         {jobs.map((job, index) => (
           <div key={index}>{job.name} - {job.company} - {job.status} - {job.Date} - {job.Link}</div>
         ))}
+      </div>
+      <div>
+        <input
+          type="text"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          placeholder="User ID"
+        />
+        <input
+          type="text"
+          value={jobId}
+          onChange={(e) => setJobId(e.target.value)}
+          placeholder="Job ID"
+        />
+        <textarea
+          value={report}
+          onChange={(e) => setReport(e.target.value)}
+          placeholder="Report"
+        />
+        <button onClick={handleSubmitReport}>Submit Report</button>
       </div>
       <button onClick={() => window.location.href = '/updatePreferencesForm'}>Update Preferences</button>
     </div>

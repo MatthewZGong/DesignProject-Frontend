@@ -9,7 +9,6 @@ const DETELEACCOUNT_ENDPOINT = `${BACKEND_URL}/delete-account`;
 
 function DeleteUser() {
   const [userid, setuserid] = useState('');
-  // const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { deleteaccount } = useAuth();
   const navigate = useNavigate();

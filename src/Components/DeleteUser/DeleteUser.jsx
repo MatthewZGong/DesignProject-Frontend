@@ -21,7 +21,6 @@ function DeleteUser() {
         "userid": userid
         }
        });
-       //using response.data please use localstorage so that it can be accessed from other files
        const info = response.data.message
 
       console.log('Account deleted successfully:', response.data);

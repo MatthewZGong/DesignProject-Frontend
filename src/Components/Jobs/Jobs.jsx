@@ -132,11 +132,12 @@ function Jobs() {
   const [error, setError] = useState('');
   const [jobs, setJobs] = useState([]);
   const [addingJob, setAddingJob] = useState(false);
+//   const [numberJobs, setNumberJobs] = useState('');
 
+  let number_jobs =5;
   const fetchJobs = () => {
-    const numbers = 5;
 
-    axios.get(`${JOBS_ENDPOINT}?numbers=${numbers}`)
+    axios.get(`${JOBS_ENDPOINT}?numbers=${number_jobs}`)
       .then(({ data }) => {
         console.log(data);
         setJobs(data);
@@ -146,6 +147,15 @@ function Jobs() {
         console.error('Error fetching jobs:', error);
         setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
       });
+  };
+  const handleJobCountChange = (e) => {
+    // Ensure only positive integers are accepted
+    var value = e.target.value.replace(/\D/, ''); // remove non-digit characters
+    if (isNaN(value)) {
+        value = 1; 
+    }
+    number_jobs = Math.max(value,1);
+    fetchJobs();
   };
 
 
@@ -163,7 +173,16 @@ function Jobs() {
       <header>
         <h1>View All Job Postings</h1>
         <button type="button" onClick={showAddJobForm}>Add a Job Posting</button>
+
       </header>
+      <label htmlFor="recentJobsInput">Recent </label>
+        <input
+            type="number"
+            id="recentJobsInput"
+            onChange={handleJobCountChange}
+            min="1"
+         />
+        <label htmlFor="recentJobsInput"> Jobs</label>
       <AddJobForm
         visible={addingJob}
         cancel={hideAddJobForm}
@@ -172,6 +191,7 @@ function Jobs() {
       />
       {error && <ErrorMessage message={error} />}
       {reversedJobs.map((job) => <Job key={job.title} job={job} />)}
+      
     </div>
   );
 }

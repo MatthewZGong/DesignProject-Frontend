@@ -1,18 +1,26 @@
 import React from 'react';
-
-// make Home page with links to other pages
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
     <div>
       <h1>Welcome to the Job Board</h1>
-
-      <p>Please update your user information</p>
-      <p>Update your user preferences</p>
-      <p>View all jobs</p>
-      <p>Delete your account</p>
+      <p>
+        <Link to="/updateInformation">Update your user information</Link>
+      </p>
+      <p>
+        <Link to="/updatePreferences">Update your user preferences</Link>
+      </p>
+      <p>
+        <Link to="/jobs">View all jobs</Link>
+      </p>
+      <p>
+        <Link to="/deleteUser">Delete your account</Link>
+      </p>
     </div>
   );
 }
 
 export default Home;
+
+

@@ -13,7 +13,6 @@ function UpdatePreferencesForm() {
   const [jobtype, setjobtype] = useState('');
   const [error, setError] = useState('');
   const { updatepreference } = useAuth();
-//   const [sortby, setsortby] = useState('');
 
   const navigate = useNavigate();
 
@@ -59,7 +58,7 @@ function UpdatePreferencesForm() {
           />
         </div>
         <div>
-          <label htmlFor="email">location:</label>
+          <label htmlFor="location">location:</label>
           <input
             type="text"
             id="location"
@@ -69,14 +68,24 @@ function UpdatePreferencesForm() {
         </div>
         <div>
           <label htmlFor="jobtype">jobtype:</label>
-          <input
+          <p>                       </p>
+          <p>                       </p>
+      
+          {/* <input
             type="jobtype"
             id="jobtype"
             value={jobtype}
             onChange={(e) => setjobtype(e.target.value)}
-          />
+          /> */}
+          <select>
+            <option value="SWE">SWE</option>
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Front End">Front End</option>
+            onChange={(e) => setjobtype(e.target.value)}
+          </select>
         </div>
         {error && <div style={{ color: 'red' }}>{error}</div>}
+        <p>                       </p>
         <button type="submit">Update Preferences</button>
       </form>
     </div>

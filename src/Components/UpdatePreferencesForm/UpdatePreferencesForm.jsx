@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { BACKEND_URL } from '../../constants';
+import { useAuth } from '../../AuthContext';
 
 const UPDATE_PREFERENCES_ENDPOINT = `${BACKEND_URL}/update-preferences`;
 
@@ -11,6 +12,7 @@ function UpdatePreferencesForm() {
   const [location, setlocation] = useState('');
   const [jobtype, setjobtype] = useState('');
   const [error, setError] = useState('');
+  const { updatepreference } = useAuth();
 //   const [sortby, setsortby] = useState('');
 
   const navigate = useNavigate();
@@ -27,6 +29,9 @@ function UpdatePreferencesForm() {
         "job_type": jobtype,
         }
        });
+       const info = response.data.message
+
+      updatepreference(info);
       console.log(userid);
       console.log(location);
       console.log(jobtype);

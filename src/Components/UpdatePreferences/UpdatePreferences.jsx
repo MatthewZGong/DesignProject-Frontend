@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../constants';
 const Read_Most_Recent_Jobs_Endpoint = `${BACKEND_URL}/READ_MOST_RECENT_JOBS`;
 const User_Report_Endpoint = `${BACKEND_URL}/USER_REPORT`;
+
 function JobsByPreferences() {
   const [numDays, setNumDays] = useState('');
   const [jobs, setJobs] = useState([]);

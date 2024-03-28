@@ -17,7 +17,7 @@ function User() {
     if (!isLoggedIn) {
       navigate('/login');
     }
-  }, [isLoggedIn, navigate]);
+  }, []);
   
   const UpdateUserInformation = () => {
     //redirect to another endpoint

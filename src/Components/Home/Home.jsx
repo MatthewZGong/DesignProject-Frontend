@@ -1,26 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const handleViewProfile = () => {
+    navigate('/User');
+  };
+
   return (
     <div>
       <h1>Welcome to the Job Board</h1>
-      <p>
-        <Link to="/updateInformation">Update your user information</Link>
-      </p>
-      <p>
-        <Link to="/updatePreferences">Update your user preferences</Link>
-      </p>
-      <p>
-        <Link to="/jobs">View all jobs</Link>
-      </p>
-      <p>
-        <Link to="/deleteUser">Delete your account</Link>
-      </p>
+      {isLoggedIn && (
+        <button onClick={handleViewProfile}>View your profile</button>
+      )}
     </div>
   );
 }
 
 export default Home;
-
-

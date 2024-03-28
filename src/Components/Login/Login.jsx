@@ -10,8 +10,15 @@ function Login() {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/user');
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

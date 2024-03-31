@@ -33,13 +33,14 @@ function AddJobForm({
   const [jobType, setJobType] = useState('');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState(formatDate(new Date()));
+  const [jobLink, setJobLink] = useState('');
 
 
   const handleChange = (setter) => (event) => setter(event.target.value);
 
   const addJob = (event) => {
     console.error('adding job');
-    console.error({ title, company, jobDescription, jobType, location, date });
+    console.error({ title, company, jobDescription, jobType, location, date,jobLink });
     event.preventDefault();
     axios.post(ADD_JOB_ENDPOINT, null, { params:{
       "job_title": title, 
@@ -47,7 +48,8 @@ function AddJobForm({
       "job_description": jobDescription, 
       "job_type": jobType, 
       "location": location, 
-      "date":  date.toString()
+      "date":  date.toString(),
+      "link": jobLink,
     }
     })
     .then(fetchJobs)
@@ -70,6 +72,8 @@ function AddJobForm({
       <input required type="date" id="date" value={date} onChange={handleChange(setDate)} />
       <label htmlFor="job_description">Job Description</label>
       <input required id="job_description" value={jobDescription} onChange={handleChange(setJobDescription)} />
+      <label htmlFor="job_link">Job Link</label>
+      <input required type="text" id="job_link" value={jobLink} onChange={handleChange(setJobLink)} />
       <button type="button" onClick={cancel}>Cancel</button>
       <button type="submit">Submit</button>
     </form>
@@ -94,11 +98,11 @@ ErrorMessage.propTypes = {
 };
 
 function Job({ job }) {
-  const { company, date, job_description, job_title, job_type, location } = job;
+  const { company, date, job_description, job_title, job_type, location, link } = job;
   return (
             <div className="job-container">
             <div className="title-container">
-                <h2>{job_title} at {company}</h2>
+                <h2><a href={link}>{job_title} at {company}</a></h2>
             </div>
             <div className="content-container">
                 <div className="left-column">
@@ -121,6 +125,7 @@ Job.propTypes = {
     job_title: propTypes.string.isRequired,
     job_type: propTypes.string.isRequired,
     location: propTypes.string.isRequired,
+    link: propTypes.string
   }).isRequired,
 };
 

@@ -8,7 +8,7 @@ import { useAuth } from '../../AuthContext';
 const UPDATE_PREFERENCES_ENDPOINT = `${BACKEND_URL}/update-preferences`;
 
 function UpdatePreferencesForm() {
-  const [userid, setuserid] = useState('');
+  // const [userid, setuserid] = useState('');
   const [location, setlocation] = useState('');
   const [jobtype, setjobtype] = useState('');
   const [error, setError] = useState('');
@@ -23,7 +23,7 @@ function UpdatePreferencesForm() {
     try {
       const response = await axios.put(UPDATE_PREFERENCES_ENDPOINT, {
         params: {
-        "user_id": userid,
+        "user_id": localStorage.getItem('user_id'),
         "location": location,
         "job_type": jobtype,
         }
@@ -31,13 +31,13 @@ function UpdatePreferencesForm() {
        const info = response.data.message
 
       updatepreference(info);
-      console.log(userid);
+      // console.log(user_id);
       console.log(location);
       console.log(jobtype);
       console.log('Preferences Updated Successfully:', response.data);
       navigate('/');
     } catch (error) {
-      console.log(userid);
+      // console.log(user_id);
       console.log(location);
       console.log(jobtype);
       console.error('There was an error updating user preferences', error);
@@ -48,7 +48,7 @@ function UpdatePreferencesForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
+        {/* <div>
           <label htmlFor="userid">Userid:</label>
           <input 
             type="text"
@@ -56,7 +56,7 @@ function UpdatePreferencesForm() {
             value={userid}
             onChange={(e) => setuserid(e.target.value)}
           />
-        </div>
+        </div> */}
         <div>
           <label htmlFor="location">location:</label>
           <input

@@ -81,6 +81,9 @@ function UpdatePreferencesForm() {
             <option value="SWE">SWE</option>
             <option value="Machine Learning">Machine Learning</option>
             <option value="Front End">Front End</option>
+            <option value="Back End">Front End</option>
+            <option value="Artificial Intelligence">Front End</option>
+            <option value="Project Management">Front End</option>
             onChange={(e) => setjobtype(e.target.value)}
           </select>
         </div>

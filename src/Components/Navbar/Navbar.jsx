@@ -1,9 +1,7 @@
-import React  from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
-import { Link }  from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
-
 
 const PAGES = [
   { label: 'Home', destination: '/' },
@@ -19,6 +17,7 @@ function NavLink({ page }) {
     </li>
   );
 }
+
 NavLink.propTypes = {
   page: propTypes.shape({
     label: propTypes.string.isRequired,
@@ -27,27 +26,33 @@ NavLink.propTypes = {
 };
 
 function Navbar() {
-   
-   
-  const { isLoggedIn, logout } = useAuth();
-  
+  const { isLoggedIn, isAdmin, logout } = useAuth();
+
   return (
     <nav>
       <ul className="wrapper">
-        {PAGES.map((page) => <NavLink key={page.destination} page={page} />)}
-
-        {}
-        <ul className="nav_bar_login">
-        <li>
-          <Link to={isLoggedIn ? '/user' : '/login'}>{isLoggedIn ? 'User' : 'Login'}</Link>
-        </li>
-        {isLoggedIn && (
+        {PAGES.map((page) => (
+          <NavLink key={page.destination} page={page} />
+        ))}
+        {isAdmin && (
           <li>
-            <Link to={'/'} onClick={logout}>Logout</Link>
+            <Link to="/delete-user">Delete User</Link>
           </li>
         )}
+        <ul className="nav_bar_login">
+          <li>
+            <Link to={isLoggedIn ? '/user' : '/login'}>
+              {isLoggedIn ? 'User' : 'Login'}
+            </Link>
+          </li>
+          {isLoggedIn && (
+            <li>
+              <Link to="/" onClick={logout}>
+                Logout
+              </Link>
+            </li>
+          )}
         </ul>
-
       </ul>
     </nav>
   );

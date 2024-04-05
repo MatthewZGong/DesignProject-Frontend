@@ -29,10 +29,12 @@ function Login() {
         }
        });
        //using response.data please use localstorage so that it can be accessed from other files
-       const info = response.data.message
+      const info = response.data.message
+      const isAdmin = username === 'sj';
 
+       // Pass the isAdmin value to the login function
+       login(info, isAdmin);
       console.log('Account created successfully:', response.data);
-      login(info);
       navigate('/User');
     } catch (error) {
       console.log(username);

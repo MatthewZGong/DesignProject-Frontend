@@ -7,22 +7,29 @@ export const AuthProvider = ({ children }) => {
     return localStorage.getItem('isLoggedIn') === 'true';
   });
 
+  const [isAdmin, setIsAdmin] = useState(() => {
+    return localStorage.getItem('isAdmin') === 'true';
+  });
+
   useEffect(() => {
     localStorage.setItem('isLoggedIn', isLoggedIn);
-  }, [isLoggedIn]);
+    localStorage.setItem('isAdmin', isAdmin);
+  }, [isLoggedIn, isAdmin]);
 
-  const login = (info) => {
+  const login = (info, admin) => {
     localStorage.setItem('user_id', info);
     setIsLoggedIn(true);
+    setIsAdmin(admin);
   };
 
   const logout = () => {
     localStorage.removeItem('user_id');
     setIsLoggedIn(false);
+    setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isAdmin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -6,6 +6,7 @@ import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
 const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add-new-job`;
+const REPORT_ENDPOINT = `${BACKEND_URL}/add-user-report`;
 const formatDate = (date) => {
   let d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -97,8 +98,24 @@ ErrorMessage.propTypes = {
   message: propTypes.string.isRequired,
 };
 
+
+
 function Job({ job }) {
-  const { company, date, job_description, job_title, job_type, location, link } = job;
+  const { company, date, job_description, job_title, job_type, location, link, job_id } = job;
+  const [reportReason, setReportReason] = useState('');
+  const [submittingReport, setSubmittingReport] = useState(false);
+  const click_report = () => { setSubmittingReport(!submittingReport); };
+  const handleChange = (setter) => (event) => setter(event.target.value);
+  const { isLoggedIn } = useAuth();
+  const submitReport =  () => { 
+    axios.post(REPORT_ENDPOINT, null, { params:{
+        "job_id": job_id,
+        "report": reportReason,
+        "user_id": localStorage.getItem('user_id')
+    }
+    })
+  }
+
   return (
             <div className="job-container">
             <div className="title-container">
@@ -114,6 +131,15 @@ function Job({ job }) {
                 <p><strong>Date:</strong> {date}</p>
                 </div>
             </div>
+                {isLoggedIn && (
+                <button onClick={click_report}>Report</button> )}
+                { submittingReport  && isLoggedIn && 
+                (<form className="report-form" id={job_id} onSubmit={submitReport}>
+                    <textarea id="Reason" name="Reason" rows="5" value={reportReason} onChange={handleChange(setReportReason)}></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+                )}
+            
             </div>
   );
 }
@@ -125,7 +151,8 @@ Job.propTypes = {
     job_title: propTypes.string.isRequired,
     job_type: propTypes.string.isRequired,
     location: propTypes.string.isRequired,
-    link: propTypes.string
+    link: propTypes.string, 
+    job_id: propTypes.string.isRequired
   }).isRequired,
 };
 

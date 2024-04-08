@@ -3,47 +3,44 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { BACKEND_URL } from '../../constants';
-import { useAuth } from '../../AuthContext';
 
 const UPDATE_PREFERENCES_ENDPOINT = `${BACKEND_URL}/update-preferences`;
 
 function UpdatePreferencesForm() {
-  // const [userid, setuserid] = useState('');
+  const [user_id, setuserid] = useState('');
   const [location, setlocation] = useState('');
   const [jobtype, setjobtype] = useState('');
   const [error, setError] = useState('');
-  const { updatepreference } = useAuth();
+  
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+    setuserid(user_id);
+  
+    const queryParams = new URLSearchParams({
+      user_id: localStorage.getItem('user_id'), 
+      location: location,   
+      job_type: jobtype,      
+    }).toString();
+  
+    
+    const urlWithParams = `${UPDATE_PREFERENCES_ENDPOINT}?${queryParams}`;
+  
     try {
-      const response = await axios.put(UPDATE_PREFERENCES_ENDPOINT, {
-        params: {
-        "user_id": localStorage.getItem('user_id'),
-        "location": location,
-        "job_type": jobtype,
-        }
-       });
-       const info = response.data.message
-
-      updatepreference(info);
-      // console.log(user_id);
-      console.log(location);
-      console.log(jobtype);
+      
+      const response = await axios.put(urlWithParams, null);
+      console.log(user_id, location, jobtype);
       console.log('Preferences Updated Successfully:', response.data);
       navigate('/');
     } catch (error) {
-      // console.log(user_id);
-      console.log(location);
-      console.log(jobtype);
-      console.error('There was an error updating user preferences', error);
+      console.error('There was an error updating user preferences:', error);
       setError(error.response?.data?.message || 'Failed to update user preferences. Please try again.');
     }
   };
+  
 
   return (
     <div>
@@ -81,13 +78,13 @@ function UpdatePreferencesForm() {
             <option value="SWE">SWE</option>
             <option value="Machine Learning">Machine Learning</option>
             <option value="Front End">Front End</option>
-            <option value="Back End">Front End</option>
-            <option value="Artificial Intelligence">Front End</option>
-            <option value="Junior SWE">Front End</option>
-            <option value="STEM Teacher">Front End</option>
-            <option value="Desktop Support">Front End</option>
-            <option value="Cybersecurity">Front End</option>
-            <option value="OS Engineer">Front End</option>
+            <option value="Back End">Back End</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Junior SWE">Junior SWE</option>
+            <option value="STEM Teacher">STEM Teacher</option>
+            <option value="Desktop Support">Desktop Support</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="OS Engineer">OS Engineer</option>
             onChange={(e) => setjobtype(e.target.value)}
           </select>
         </div>

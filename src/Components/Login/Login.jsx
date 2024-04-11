@@ -22,7 +22,13 @@ function Login() {
     const fetchFormDescription = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/form`);
-        setFormData(response.data.form_description);
+        const initialFormData = response.data.form_description;
+        setFormData(
+          Object.keys(initialFormData).reduce((acc, key) => {
+            acc[key] = '';
+            return acc;
+          }, {})
+        );
       } catch (error) {
         console.error('There was an error fetching the form description:', error);
         setError('Failed to fetch form description. Please try again.');

@@ -11,36 +11,34 @@ function UpdateInformation() {
   const [username, setusername] = useState('');
   const [email, setemail] = useState('');
   const [error, setError] = useState('');
-//   const [sortby, setsortby] = useState('');
+
 
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setuserid(localStorage.getItem('user_id'));
+    setuserid(userid);
+    const queryParams = new URLSearchParams({
+      _id: userid,
+      username: username, 
+      email: email,
+    }).toString();
+  
+    // Construct the URL with query parameters
+    const urlWithParams = `${UPDATE_Information_ENDPOINT}?${queryParams}`;
+  
     try {
-      const response = await axios.put(UPDATE_Information_ENDPOINT, {
-        params: {
-        "_id": userid,
-        "username": username,
-        "email": email,
-        }
-       });
-      console.log(response.data);
+      // Send the PUT request
+      const response = await axios.put(urlWithParams);
       console.log(userid);
-      console.log(username);
-      console.log(email);
       console.log('Information Updated Successfully:', response.data);
       navigate('/');
     } catch (error) {
-      console.log(userid);
-      console.log(username);
-      console.log(email);
-      console.error('There was an error updating user information', error);
+      console.error('There was an error updating user information:', error);
       setError(error.response?.data?.message || 'Failed to update user information. Please try again.');
     }
   };
+  
 
   return (
     <div>

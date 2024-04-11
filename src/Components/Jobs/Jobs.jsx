@@ -7,6 +7,7 @@ import { BACKEND_URL } from '../../constants';
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
 const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add-new-job`;
 const REPORT_ENDPOINT = `${BACKEND_URL}/add-user-report`;
+const DELETE_ENDPOINT = `${BACKEND_URL}/admin_delete_jobs`;
 const formatDate = (date) => {
   let d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -100,21 +101,38 @@ ErrorMessage.propTypes = {
 
 
 
-function Job({ job }) {
+function Job({ job, setError}) {
   const { company, date, job_description, job_title, job_type, location, link, job_id } = job;
   const [reportReason, setReportReason] = useState('');
   const [submittingReport, setSubmittingReport] = useState(false);
   const click_report = () => { setSubmittingReport(!submittingReport); };
   const handleChange = (setter) => (event) => setter(event.target.value);
-  const { isLoggedIn } = useAuth();
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const { isLoggedIn, isAdmin } = useAuth();
+  const [shouldDelete, setShouldDelete] = useState(false);
   const submitReport =  () => { 
     axios.post(REPORT_ENDPOINT, null, { params:{
         "job_id": job_id,
         "report": reportReason,
         "user_id": localStorage.getItem('user_id')
     }
-    })
+    }).catch(() => { setError('There was a problem submitting the report.')});
   }
+
+  const deleteJob = () => {
+    axios.delete(DELETE_ENDPOINT, { params:{
+        "admin_id": localStorage.getItem('user_id'),
+        "job_id": job_id
+    }
+    }).catch(() => { setError('There was a problem deleting the job posting. '+localStorage.getItem('user_id') +" " +job_id)});
+    //delete the current div
+    // updateJobs();
+    setShouldDelete(true);
+  }
+
+    if(shouldDelete){
+        return null;
+    }
 
   return (
             <div className="job-container">
@@ -138,6 +156,16 @@ function Job({ job }) {
                     <textarea id="Reason" name="Reason" rows="5" value={reportReason} onChange={handleChange(setReportReason)}></textarea>
                     <button type="submit">Submit</button>
                 </form>
+                )}
+                {isLoggedIn && isAdmin && (
+                    <button onClick={() => setShowDeleteConfirmation(true)}>Delete</button>
+                )}
+                {showDeleteConfirmation && isAdmin && isLoggedIn && (
+                    <div className="confirmation-dialog">
+                    <p>Are you sure you want to delete this job posting?</p>
+                    <button onClick={deleteJob}>Yes, Delete</button>
+                    <button onClick={() => setShowDeleteConfirmation(false)}>Cancel</button>
+                    </div>
                 )}
             
             </div>
@@ -230,7 +258,7 @@ function Jobs() {
         setError={setError}
       />
       {error && <ErrorMessage message={error} />}
-      {reversedJobs.map((job) => <Job key={job.title} job={job} />)}
+      {reversedJobs.map((job) => <Job key={job.title} job={job} setError={setError} updateJobs={fetchJobs} />)}
       
     </div>
   );

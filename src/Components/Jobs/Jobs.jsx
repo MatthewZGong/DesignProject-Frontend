@@ -165,7 +165,7 @@ function Jobs() {
   const [error, setError] = useState('');
   const [jobs, setJobs] = useState([]);
   const [addingJob, setAddingJob] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isAdmin } = useAuth();
 //   const [numberJobs, setNumberJobs] = useState('');
 
   let number_jobs =5;
@@ -210,7 +210,7 @@ function Jobs() {
     <div className="wrapper">
       <header>
         <h1>View All Job Postings</h1>
-        {isLoggedIn && (
+        {isLoggedIn && isAdmin && (
         <button type="button" onClick={showAddJobForm}>Add a Job Posting</button>
       )}
 

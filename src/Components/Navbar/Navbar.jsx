@@ -34,6 +34,12 @@ function Navbar() {
         {PAGES.map((page) => (
           <NavLink key={page.destination} page={page} />
         ))}
+
+    {isLoggedIn &&  isAdmin && (
+                <li>
+                    <Link to="/Reports">Reports</Link>
+                </li>
+            )}
         {isAdmin && (
           <li>
             <Link to="/delete-user">Delete User</Link>

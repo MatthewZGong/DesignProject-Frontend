@@ -102,14 +102,25 @@ ErrorMessage.propTypes = {
 
 
 function Job({ job, setError}) {
-  const { company, date, job_description, job_title, job_type, location, link, job_id } = job;
+  const handleChange = (setter) => (event) => setter(event.target.value);
+    // console.log(init_company);
+//   const {company,setCompany} = useState(company);
+//   const {date, setDate} = useState(date);
+//   const {job_description, setJobDescription} = useState(job_description);
+//   const {job_title, setJobTitle} = useState(job_title);
+//   const {job_type, setJobType} = useState(job_type);
+//   const {location, setLocation} = useState(location);
+//   const {link, setLink} = useState(link);
+//   let job_id ; 
+    // const {test_company} = useState('THIS IS A TEST VALUE');
+  const {company, date, job_description, job_title, job_type, location, link, job_id}  = job; 
   const [reportReason, setReportReason] = useState('');
   const [submittingReport, setSubmittingReport] = useState(false);
   const click_report = () => { setSubmittingReport(!submittingReport); };
-  const handleChange = (setter) => (event) => setter(event.target.value);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const { isLoggedIn, isAdmin } = useAuth();
   const [shouldDelete, setShouldDelete] = useState(false);
+  const [editing, setEditing] = useState(false);
   const submitReport =  () => { 
     axios.post(REPORT_ENDPOINT, null, { params:{
         "job_id": job_id,
@@ -124,21 +135,28 @@ function Job({ job, setError}) {
         "admin_id": localStorage.getItem('user_id'),
         "job_id": job_id
     }
-    }).catch(() => { setError('There was a problem deleting the job posting. '+localStorage.getItem('user_id') +" " +job_id)});
+    }).catch(() => { setError('There was a problem deleting the job posting.')});
     //delete the current div
     // updateJobs();
     setShouldDelete(true);
   }
+//   const handleEdit = () => {
+//   }
 
-    if(shouldDelete){
-        return null;
-    }
+  if(shouldDelete){
+    return null;
+  }
 
   return (
             <div className="job-container">
+            {!editing && (
             <div className="title-container">
                 <h2><a href={link}>{job_title} at {company}</a></h2>
-            </div>
+    
+            </div> 
+            )}
+
+            {!editing && (
             <div className="content-container">
                 <div className="left-column">
                 <p><strong>Type:</strong> {job_type}</p>
@@ -149,14 +167,29 @@ function Job({ job, setError}) {
                 <p><strong>Date:</strong> {date}</p>
                 </div>
             </div>
-                {isLoggedIn && (
-                <button onClick={click_report}>Report</button> )}
-                { submittingReport  && isLoggedIn && 
-                (<form className="report-form" id={job_id} onSubmit={submitReport}>
-                    <textarea id="Reason" name="Reason" rows="5" value={reportReason} onChange={handleChange(setReportReason)}></textarea>
+            )}
+            {/* {editing && (
+                <form onSubmit={handleEdit}>
+                    <label htmlFor="company">Company</label>
+                    <input required type="text" id="company" value={company} onChange={handleChange(setCompany)} />
+                    <label htmlFor="job_title">Job Title</label>
+                    <input required type="text" id="job_title" value={job_title} onChange={handleChange(setJobTitle)} />
+                    <label htmlFor="job_type">Job Type</label>
+                    <input required type="text" id="job_type" value={job_type} onChange={handleChange(setJobType)} />
+                    <label htmlFor="location">Location</label>
+                    <input required type="text" id="location" value={location} onChange={handleChange(setLocation)} />
+                    <label htmlFor="date">Date</label>
+                    <input required type="date" id="date" value={date} onChange={handleChange(setDate)} />
+                    <label htmlFor="job_description">Job Description</label>
+                    <input required id="job_description" value={job_description} onChange={handleChange(setJobDescription)} />
+                    <label htmlFor="job_link">Job Link</label>
+                    <input required type="text" id="job_link" value={link} onChange={handleChange(setLink)} />
                     <button type="submit">Submit</button>
                 </form>
-                )}
+            )} */}
+
+
+                {isLoggedIn && isAdmin && ( <button onClick={() => setEditing(!editing)}> {editing ? "Cancel" : "Edit"}</button> )}
                 {isLoggedIn && isAdmin && (
                     <button onClick={() => setShowDeleteConfirmation(true)}>Delete</button>
                 )}
@@ -166,6 +199,15 @@ function Job({ job, setError}) {
                     <button onClick={deleteJob}>Yes, Delete</button>
                     <button onClick={() => setShowDeleteConfirmation(false)}>Cancel</button>
                     </div>
+                )}
+
+                {isLoggedIn && (
+                <button onClick={click_report}>Report</button> )}
+                { submittingReport  && isLoggedIn && 
+                (<form className="report-form" id={job_id} onSubmit={submitReport}>
+                    <textarea id="Reason" name="Reason" rows="5" value={reportReason} onChange={handleChange(setReportReason)}></textarea>
+                    <button type="submit">Submit</button>
+                </form>
                 )}
             
             </div>
@@ -230,7 +272,7 @@ function Jobs() {
   const showAddJobForm = () => { setAddingJob(true); };
   const hideAddJobForm = () => { setAddingJob(false); };
 
-  useEffect(fetchJobs, []);
+//   useEffect(fetchJobs, []);
   
   const reversedJobs = [...jobs].reverse();
 

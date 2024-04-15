@@ -7,12 +7,15 @@ import { BACKEND_URL } from '../../constants';
 
 
 function User() {
-  const [name] = useState('Name'); //from backend get its name
-  const [userType] = useState('user'); //from backend get its usertype(admin or user)
+  const name = localStorage.getItem('username')
+  const { isLoggedIn, logout, isAdmin } = useAuth();
+  let userType = 'user'
+  if (isAdmin){
+     userType = 'admin';}
   const [jobType] = useState('Type of jobs');//from backend get its job type
   const [jobLocation] = useState('Location of jobs');//from backend get its job location
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
+  
   React.useEffect(() => {
     if (!isLoggedIn) {
       navigate('/login');

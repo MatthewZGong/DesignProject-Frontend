@@ -46,8 +46,10 @@ function Login() {
       });
 
       const info = response.data.message;
-      const isAdmin = formData.username === 'sj';
+      const isAdmin = formData.username === 'shaojin999' || formData.username === 'sj' ;
       login(info, isAdmin);
+      localStorage.setItem('username',formData.username)
+      console.log('fff',formData)
       console.log('Account created successfully:', response.data);
       navigate('/User');
     } catch (error) {

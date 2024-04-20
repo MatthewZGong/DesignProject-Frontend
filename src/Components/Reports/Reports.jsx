@@ -9,6 +9,7 @@ import { BACKEND_URL } from '../../constants';
 
 const REPORTS_ENDPOINT = `${BACKEND_URL}/get_user_reports`;
 const REPORTS_DELETE_ENDPOINT = `${BACKEND_URL}/delete_user_report`;
+const REPORTS_GET_USER_BY_ID_ENDPOINT = `${BACKEND_URL}/get_username_by_id`;
 
 function ErrorMessage({ message }) {
     return (
@@ -28,9 +29,17 @@ function ReportDiv({rep, ind}) {
     }
     const {id, user_id, job_id, data} = rep;
     const [showResolved, setShowResolved] = useState(false);
+    const [username, setUsername] = useState('');
     if(showResolved){
         return null;
     }
+    const get_username = () => {
+        axios.get(REPORTS_GET_USER_BY_ID_ENDPOINT, { params: {"user_id": user_id}})
+        .then(({ data }) => {
+            setUsername(data.username);
+        })
+    }
+    get_username();
     const handleResolve = () => {
         // setShowResolved(true);
         console.log(id);
@@ -39,12 +48,11 @@ function ReportDiv({rep, ind}) {
             setShowResolved(true);
         })
     }
-
     return (
         <div className="report-container">
             <div className="report-header" key={id}>
                 <h2>Report #{ind+1}</h2>
-                <p>User ID: {user_id}</p>
+                <p>User: {username}</p>
                 <p>Job ID: {job_id}</p>
             </div>
             <div className="report-body">

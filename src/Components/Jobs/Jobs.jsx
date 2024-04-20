@@ -147,22 +147,24 @@ function Job({ job, setError}) {
             <div className="job-container">
             {!editing && (
             <div className="title-container">
-                <h2><a href={link}>{job_type} at {company}</a></h2>
+                <h2><a href={link}>{job_type}</a></h2>
+                <h2><a>{company}</a></h2>
     
             </div> 
             )}
-
+            <div>
             {!editing && (
             <div className="content-container">
                 <div className="left-column">
-                <p><strong>Description:</strong> {job_description}</p>
+                <p><strong>Location:</strong> {location}</p>
                 </div>
                 <div className="right-column">
-                <p><strong>Location:</strong> {location}</p>
                 <p><strong>Date:</strong> {date}</p>
                 </div>
             </div>
             )}
+            {job_description != "" && (<p><strong>Description:</strong> {job_description}</p>)}
+            </div>
             {/* {editing && (
                 <form onSubmit={handleEdit}>
                     <label htmlFor="company">Company</label>

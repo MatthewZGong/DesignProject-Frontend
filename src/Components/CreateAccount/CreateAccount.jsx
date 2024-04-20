@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { BACKEND_URL } from '../../constants';
 
-const CREATE_ACCOUNT_ENDPOINT = `${BACKEND_URL}/create-account`;
+const CREATE_ACCOUNT_ENDPOINT = `${BACKEND_URL}/create_account`;
 
 function CreateAccount() {
   const [username, setUsername] = useState('');

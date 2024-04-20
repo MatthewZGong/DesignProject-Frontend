@@ -22,7 +22,9 @@ function Login() {
     const fetchFormDescription = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/form`);
+        console.log(response.data);
         const initialFormData = response.data.form_description;
+        console.log(initialFormData);
         setFormData(
           Object.keys(initialFormData).reduce((acc, key) => {
             acc[key] = '';

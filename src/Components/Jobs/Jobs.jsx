@@ -5,8 +5,8 @@ import { useAuth } from '../../AuthContext';
 import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
-const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add-new-job`;
-const REPORT_ENDPOINT = `${BACKEND_URL}/add-user-report`;
+const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add_new_job`;
+const REPORT_ENDPOINT = `${BACKEND_URL}/add_user_report`;
 const DELETE_ENDPOINT = `${BACKEND_URL}/admin_delete_jobs`;
 const formatDate = (date) => {
   let d = new Date(date),
@@ -29,7 +29,6 @@ function AddJobForm({
   setError,
 }) {
 
-  const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [jobType, setJobType] = useState('');
@@ -42,10 +41,9 @@ function AddJobForm({
 
   const addJob = (event) => {
     console.error('adding job');
-    console.error({ title, company, jobDescription, jobType, location, date,jobLink });
+    console.error({company, jobDescription, jobType, location, date,jobLink });
     event.preventDefault();
     axios.post(ADD_JOB_ENDPOINT, null, { params:{
-      "job_title": title, 
       "company": company, 
       "job_description": jobDescription, 
       "job_type": jobType, 
@@ -64,8 +62,6 @@ function AddJobForm({
     <form onSubmit={addJob} className="add-job-form">
       <label htmlFor="company">Company</label>
       <input required type="text" id="company" value={company} onChange={handleChange(setCompany)} />
-      <label htmlFor="job_title">Job Title</label>
-      <input required type="text" id="job_title" value={title} onChange={handleChange(setTitle)} />
       <label htmlFor="job_type">Job Type</label>
       <input required type="text" id="job_type" value={jobType} onChange={handleChange(setJobType)} />
       <label htmlFor="location">Location</label>
@@ -113,7 +109,7 @@ function Job({ job, setError}) {
 //   const {link, setLink} = useState(link);
 //   let job_id ; 
     // const {test_company} = useState('THIS IS A TEST VALUE');
-  const {company, date, job_description, job_title, job_type, location, link, job_id}  = job; 
+  const {company, date, job_description, job_type, location, link, job_id}  = job; 
   const [reportReason, setReportReason] = useState('');
   const [submittingReport, setSubmittingReport] = useState(false);
   const click_report = () => { setSubmittingReport(!submittingReport); };
@@ -151,7 +147,7 @@ function Job({ job, setError}) {
             <div className="job-container">
             {!editing && (
             <div className="title-container">
-                <h2><a href={link}>{job_title} at {company}</a></h2>
+                <h2><a href={link}>{job_type} at {company}</a></h2>
     
             </div> 
             )}
@@ -159,7 +155,6 @@ function Job({ job, setError}) {
             {!editing && (
             <div className="content-container">
                 <div className="left-column">
-                <p><strong>Type:</strong> {job_type}</p>
                 <p><strong>Description:</strong> {job_description}</p>
                 </div>
                 <div className="right-column">
@@ -218,7 +213,6 @@ Job.propTypes = {
     company: propTypes.string.isRequired,
     date: propTypes.string.isRequired,
     job_description: propTypes.string.isRequired,
-    job_title: propTypes.string.isRequired,
     job_type: propTypes.string.isRequired,
     location: propTypes.string.isRequired,
     link: propTypes.string, 

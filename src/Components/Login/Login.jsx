@@ -48,7 +48,9 @@ function Login() {
       });
 
       const info = response.data.message;
-      const isAdmin = formData.username === 'shaojin999' || formData.username === 'sj' ;
+      const adminUsernames = ['sj', 'admin', 'shaojin999'];
+
+      const isAdmin = adminUsernames.includes(formData.username);
       login(info, isAdmin);
       localStorage.setItem('username',formData.username)
       console.log('fff',formData)

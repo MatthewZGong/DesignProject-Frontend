@@ -17,6 +17,7 @@ import User from './Components/User';
 import DeleteUser from './Components/DeleteUser';
 import UpdatePreferencesForm from './Components/UpdatePreferencesForm';
 import UpdateInformation from './Components/UpdateInformation';
+import Reports from './Components/Reports';
 
 import { AuthProvider } from './AuthContext';
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="updateInformation" element={<UpdateInformation />} />
         <Route path="user" element={<User />} />
         <Route path="DeleteUser" element={<DeleteUser />} />
+        <Route path="Reports" element={<Reports/>} />
       </Routes>
       </AuthProvider>
     </BrowserRouter>

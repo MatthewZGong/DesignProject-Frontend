@@ -22,7 +22,9 @@ function Login() {
     const fetchFormDescription = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/form`);
+        console.log(response.data);
         const initialFormData = response.data.form_description;
+        console.log(initialFormData);
         setFormData(
           Object.keys(initialFormData).reduce((acc, key) => {
             acc[key] = '';
@@ -46,8 +48,10 @@ function Login() {
       });
 
       const info = response.data.message;
-      const isAdmin = formData.username === 'sj';
+      const isAdmin = formData.username === 'shaojin999' || formData.username === 'sj' ;
       login(info, isAdmin);
+      localStorage.setItem('username',formData.username)
+      console.log('fff',formData)
       console.log('Account created successfully:', response.data);
       navigate('/User');
     } catch (error) {

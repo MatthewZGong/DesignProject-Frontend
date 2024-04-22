@@ -22,7 +22,41 @@ function Home() {
       {isLoggedIn && (
         <button onClick={handleViewProfile}>View your profile</button>
       )}
-    </div>
+      <br />
+      <br />
+      <br />
+      
+      <form>
+       
+  
+        <div>
+          <label htmlFor="jobtype">Job Types, Keyword, or Company:</label>
+          <p>                       </p>
+          <p>                       </p>
+      
+          <select>
+            <option value="SWE">SWE</option>
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Front End">Front End</option>
+            <option value="Back End">Back End</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Junior SWE">Junior SWE</option>
+            <option value="STEM Teacher">STEM Teacher</option>
+            <option value="Desktop Support">Desktop Support</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="OS Engineer">OS Engineer</option>
+            <option value="NYC">NYC</option>
+            <option value="Brooklyn">Brooklyn</option>
+            <option value="Meta">Meta</option>
+            <option value="Google">Google</option>
+            <option value="Amazon">Amazon</option>
+          </select>
+        </div>
+        <p>                       </p>
+      </form>
+    
+      
+    </div>      
   );
 }
 

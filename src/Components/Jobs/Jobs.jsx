@@ -5,8 +5,10 @@ import { useAuth } from '../../AuthContext';
 import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
-const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add-new-job`;
-const REPORT_ENDPOINT = `${BACKEND_URL}/add-user-report`;
+const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add_new_job`;
+const REPORT_ENDPOINT = `${BACKEND_URL}/add_user_report`;
+const DELETE_ENDPOINT = `${BACKEND_URL}/admin_delete_jobs`;
+const UPDATE_JOB_ENDPOINT = `${BACKEND_URL}/update_job_posting`;
 const formatDate = (date) => {
   let d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -28,7 +30,6 @@ function AddJobForm({
   setError,
 }) {
 
-  const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [jobType, setJobType] = useState('');
@@ -41,10 +42,9 @@ function AddJobForm({
 
   const addJob = (event) => {
     console.error('adding job');
-    console.error({ title, company, jobDescription, jobType, location, date,jobLink });
+    console.error({company, jobDescription, jobType, location, date,jobLink });
     event.preventDefault();
     axios.post(ADD_JOB_ENDPOINT, null, { params:{
-      "job_title": title, 
       "company": company, 
       "job_description": jobDescription, 
       "job_type": jobType, 
@@ -63,8 +63,6 @@ function AddJobForm({
     <form onSubmit={addJob} className="add-job-form">
       <label htmlFor="company">Company</label>
       <input required type="text" id="company" value={company} onChange={handleChange(setCompany)} />
-      <label htmlFor="job_title">Job Title</label>
-      <input required type="text" id="job_title" value={title} onChange={handleChange(setTitle)} />
       <label htmlFor="job_type">Job Type</label>
       <input required type="text" id="job_type" value={jobType} onChange={handleChange(setJobType)} />
       <label htmlFor="location">Location</label>
@@ -72,7 +70,7 @@ function AddJobForm({
       <label htmlFor="date">Date</label>
       <input required type="date" id="date" value={date} onChange={handleChange(setDate)} />
       <label htmlFor="job_description">Job Description</label>
-      <input required id="job_description" value={jobDescription} onChange={handleChange(setJobDescription)} />
+      <input id="job_description" value={jobDescription} onChange={handleChange(setJobDescription)} />
       <label htmlFor="job_link">Job Link</label>
       <input required type="text" id="job_link" value={jobLink} onChange={handleChange(setJobLink)} />
       <button type="button" onClick={cancel}>Cancel</button>
@@ -100,37 +98,115 @@ ErrorMessage.propTypes = {
 
 
 
-function Job({ job }) {
-  const { company, date, job_description, job_title, job_type, location, link, job_id } = job;
+function Job({ job, setError}) {
+  const handleChange = (setter) => (event) => setter(event.target.value);
+  const {company, date, job_description, job_type, location, link, job_id}  = job; 
   const [reportReason, setReportReason] = useState('');
   const [submittingReport, setSubmittingReport] = useState(false);
   const click_report = () => { setSubmittingReport(!submittingReport); };
-  const handleChange = (setter) => (event) => setter(event.target.value);
-  const { isLoggedIn } = useAuth();
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const { isLoggedIn, isAdmin } = useAuth();
+
+  
+  const [shouldDelete, setShouldDelete] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [company_value, setCompany] = useState(company);
+  const [date_value, setDate] = useState(date);
+  const [job_description_value, setJobDescription] = useState(job_description);
+  const [job_type_value, setJobType] = useState(job_type);
+  const [location_value, setLocation] = useState(location);
+  const [link_value, setLink] = useState(link);
+
+
+
+
+
   const submitReport =  () => { 
     axios.post(REPORT_ENDPOINT, null, { params:{
         "job_id": job_id,
         "report": reportReason,
         "user_id": localStorage.getItem('user_id')
     }
-    })
+    }).catch(() => { setError('There was a problem submitting the report.')});
+  }
+
+  const deleteJob = () => {
+    axios.delete(DELETE_ENDPOINT, { params:{
+        "admin_id": localStorage.getItem('user_id'),
+        "job_id": job_id
+    }
+    }).catch(() => { setError('There was a problem deleting the job posting.')});
+    //delete the current div
+    // updateJobs();
+    setShouldDelete(true);
+  }
+  const handleEdit = () => {
+    axios.put(UPDATE_JOB_ENDPOINT, null, { params:{
+        "job_id": job_id,
+        "company": company_value,
+        "date": date_value,
+        "job_description": job_description_value,
+        "job_type": job_type_value,
+        "location": location_value,
+        "link": link_value
+    }
+    }).catch(() => { setError('There was a problem updating the job posting.')});
+    setEditing(false);
+  }
+
+  if(shouldDelete){
+    return null;
   }
 
   return (
             <div className="job-container">
+            {!editing && (
             <div className="title-container">
-                <h2><a href={link}>{job_title} at {company}</a></h2>
-            </div>
+                <h2><a href={link_value}>{job_type_value}</a></h2>
+                <h2><a>{company_value}</a></h2>
+    
+            </div> 
+            )}
+            <div>
+            {!editing && (
             <div className="content-container">
                 <div className="left-column">
-                <p><strong>Type:</strong> {job_type}</p>
-                <p><strong>Description:</strong> {job_description}</p>
+                <p><strong>Location:</strong> {location_value}</p>
                 </div>
                 <div className="right-column">
-                <p><strong>Location:</strong> {location}</p>
-                <p><strong>Date:</strong> {date}</p>
+                <p><strong>Date:</strong> {date_value}</p>
                 </div>
             </div>
+            )}
+            {job_description_value != "" && (<p><strong>Description:</strong> {job_description_value}</p>)}
+            </div>
+            {editing && (<form onSubmit={handleEdit}  className="add-job-form">    
+                <label htmlFor="company">Company</label>
+                <input required type="text" id="company" value={company_value} onChange={handleChange(setCompany)} />
+                <label htmlFor="job_type">Job Type</label>
+                <input required type="text" id="job_type" value={job_type_value} onChange={handleChange(setJobType)} />
+                <label htmlFor="location">Location</label>
+                <input required type="text" id="location" value={location_value} onChange={handleChange(setLocation)} />
+                <label htmlFor="date">Date</label>                
+                <input required type="date" id="date" value={date_value} onChange={handleChange(setDate)} />
+                <label htmlFor="job_description">Job Description</label>
+                <input id="job_description" value={job_description_value} onChange={handleChange(setJobDescription)} />
+                <label htmlFor="job_link">Job Link</label>
+                <input required type="text" id="job_link" value={link_value} onChange={handleChange(setLink)} />
+                <button type="submit">Submit</button>
+            </form>)}
+                {isLoggedIn && isAdmin && ( <button onClick={() => setEditing(!editing)}> {editing ? "Cancel" : "Edit"}</button> )}
+                {isLoggedIn && isAdmin && (
+                    <button onClick={() => setShowDeleteConfirmation(true)}>Delete</button>
+                )}
+                {showDeleteConfirmation && isAdmin && isLoggedIn && (
+                    <div className="confirmation-dialog">
+                    <p>Are you sure you want to delete this job posting?</p>
+                    <button onClick={deleteJob}>Yes, Delete</button>
+                    <button onClick={() => setShowDeleteConfirmation(false)}>Cancel</button>
+                    </div>
+                )}
+
                 {isLoggedIn && (
                 <button onClick={click_report}>Report</button> )}
                 { submittingReport  && isLoggedIn && 
@@ -148,7 +224,6 @@ Job.propTypes = {
     company: propTypes.string.isRequired,
     date: propTypes.string.isRequired,
     job_description: propTypes.string.isRequired,
-    job_title: propTypes.string.isRequired,
     job_type: propTypes.string.isRequired,
     location: propTypes.string.isRequired,
     link: propTypes.string, 
@@ -165,7 +240,7 @@ function Jobs() {
   const [error, setError] = useState('');
   const [jobs, setJobs] = useState([]);
   const [addingJob, setAddingJob] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isAdmin } = useAuth();
 //   const [numberJobs, setNumberJobs] = useState('');
 
   let number_jobs =5;
@@ -202,7 +277,7 @@ function Jobs() {
   const showAddJobForm = () => { setAddingJob(true); };
   const hideAddJobForm = () => { setAddingJob(false); };
 
-  useEffect(fetchJobs, []);
+//   useEffect(fetchJobs, []);
   
   const reversedJobs = [...jobs].reverse();
 
@@ -210,7 +285,7 @@ function Jobs() {
     <div className="wrapper">
       <header>
         <h1>View All Job Postings</h1>
-        {isLoggedIn && (
+        {isLoggedIn && isAdmin && (
         <button type="button" onClick={showAddJobForm}>Add a Job Posting</button>
       )}
 
@@ -230,7 +305,7 @@ function Jobs() {
         setError={setError}
       />
       {error && <ErrorMessage message={error} />}
-      {reversedJobs.map((job) => <Job key={job.title} job={job} />)}
+      {reversedJobs.map((job) => <Job key={job.title} job={job} setError={setError} updateJobs={fetchJobs} />)}
       
     </div>
   );

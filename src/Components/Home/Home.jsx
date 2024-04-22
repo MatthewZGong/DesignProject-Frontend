@@ -45,6 +45,11 @@ function Home() {
             <option value="Desktop Support">Desktop Support</option>
             <option value="Cybersecurity">Cybersecurity</option>
             <option value="OS Engineer">OS Engineer</option>
+            <option value="NYC">NYC</option>
+            <option value="Brooklyn">Brooklyn</option>
+            <option value="Meta">Meta</option>
+            <option value="Google">Google</option>
+            <option value="Amazon">Amazon</option>
           </select>
         </div>
         <p>                       </p>

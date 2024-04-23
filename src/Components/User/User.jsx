@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constants';
-
 
 
 function User() {
@@ -12,16 +11,38 @@ function User() {
   let userType = 'user'
   if (isAdmin){
      userType = 'admin';}
-  const [jobType] = useState('Type of jobs');//from backend get its job type
-  const [jobLocation] = useState('Location of jobs');//from backend get its job location
+  const [jobType, setJobType] = useState('Type of jobs');
+  const [jobLocation, setJobLocation] = useState('Location of jobs');
   const navigate = useNavigate();
-  
+  const userId = localStorage.getItem('user_id');
   React.useEffect(() => {
     if (!isLoggedIn) {
       navigate('/login');
     }
   }, []);
   
+  // Fetch user preferences
+  useEffect(() => {
+    const fetchPreferences = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/get_preferences`, {
+          params: {
+          "user_id": localStorage.getItem('user_id')
+          }
+        });
+        console.log(response.data)
+        setJobType(response.data.jobType);
+        setJobLocation(response.data.jobLocation);
+      } catch (error) {
+        console.error('Failed to fetch preferences:', error);
+      }
+    };
+    if (userId) {
+      fetchPreferences();
+    }
+
+  }, [userId]);
+    
   const UpdateUserInformation = () => {
     //redirect to another endpoint
     navigate('/UpdateInformation')

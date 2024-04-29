@@ -56,12 +56,26 @@ function UpdatePreferencesForm() {
         </div> */}
         <div>
           <label htmlFor="location">location:</label>
-          <input
+
+          <label htmlFor="location">location:</label>
+          <p>                       </p>
+          <p>                       </p>
+
+          <select>
+            <option value="New York, NY">New York, NY</option>
+            <option value="Jersey City, NJ">Jersey City, NJ</option>
+            <option value="Brooklyn, NY">Brooklyn, NY</option>
+            <option value="Berkeley Heights, NJ">Berkeley Heights, NJ</option>
+            <option value="Austin, TX">Austin, TX</option>
+            onChange={(e) => setlocation(e.target.value)}
+          </select>
+
+          {/* <input
             type="text"
             id="location"
             value={location}
             onChange={(e) => setlocation(e.target.value)}
-          />
+          /> */}
         </div>
         <div>
           <label htmlFor="jobtype">jobtype:</label>

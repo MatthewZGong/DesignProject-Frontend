@@ -1,3 +1,4 @@
+// This file contains the Navbar component and its related components and logic.
 import React from 'react';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,7 @@ const PAGES = [
   { label: 'View All Jobs', destination: '/jobs' },
 ];
 
+// NavLink component renders a single navigation link.
 function NavLink({ page }) {
   const { label, destination } = page;
   return (
@@ -24,6 +26,7 @@ NavLink.propTypes = {
   }).isRequired,
 };
 
+// Navbar component renders the navigation bar with links and user-related actions.
 function Navbar() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
 
@@ -33,12 +36,11 @@ function Navbar() {
         {PAGES.map((page) => (
           <NavLink key={page.destination} page={page} />
         ))}
-
-    {isLoggedIn &&  isAdmin && (
-                <li>
-                    <Link to="/Reports">Reports</Link>
-                </li>
-            )}
+        {isLoggedIn && isAdmin && (
+          <li>
+            <Link to="/Reports">Reports</Link>
+          </li>
+        )}
         {isAdmin && (
           <li>
             <Link to="/delete-user">Delete User</Link>

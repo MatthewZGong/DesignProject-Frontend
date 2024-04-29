@@ -1,20 +1,22 @@
+// This file contains the CreateAccount component for creating a new user account.
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 import { BACKEND_URL } from '../../constants';
 
 const CREATE_ACCOUNT_ENDPOINT = `${BACKEND_URL}/create_account`;
 
+// CreateAccount component renders a form for creating a new user account.
 function CreateAccount() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-
   const navigate = useNavigate();
 
+  // handleSubmit function is called when the form is submitted.
+  // It sends a PUT request to the backend to create a new user account.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -25,12 +27,14 @@ function CreateAccount() {
     }
 
     try {
-      const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, null, {params:{
-        "username": username,
-        "email": email,
-        "password": password,
-       }
-      })
+      const response = await axios.put(CREATE_ACCOUNT_ENDPOINT, null, {
+        params: {
+          username: username,
+          email: email,
+          password: password,
+        },
+      });
+
       console.log(email);
       console.log(password);
       console.log('Account created successfully:', response.data);
@@ -40,7 +44,9 @@ function CreateAccount() {
       console.log(email);
       console.log(password);
       console.error('There was an error creating the account:', error);
-      setError(error.response?.data?.message || 'Failed to create account. Please try again.');
+      setError(
+        error.response?.data?.message || 'Failed to create account. Please try again.'
+      );
     }
   };
 

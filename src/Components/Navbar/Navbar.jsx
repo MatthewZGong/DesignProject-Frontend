@@ -6,7 +6,6 @@ import { useAuth } from '../../AuthContext';
 const PAGES = [
   { label: 'Home', destination: '/' },
   { label: 'View All Jobs', destination: '/jobs' },
-  { label: 'View All Users', destination: '/users' },
 ];
 
 function NavLink({ page }) {

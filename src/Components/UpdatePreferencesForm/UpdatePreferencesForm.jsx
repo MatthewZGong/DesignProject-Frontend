@@ -56,8 +56,6 @@ function UpdatePreferencesForm() {
         </div> */}
         <div>
           <label htmlFor="location">location:</label>
-
-          <label htmlFor="location">location:</label>
           <p>                       </p>
           <p>                       </p>
 

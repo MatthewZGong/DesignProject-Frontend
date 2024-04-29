@@ -11,8 +11,8 @@ function User() {
   let userType = 'user'
   if (isAdmin){
      userType = 'admin';}
-  const [jobType, setJobType] = useState('Type of jobs');
-  const [jobLocation, setJobLocation] = useState('Location of jobs');
+  const [jobType, setJobType] = useState('None');
+  const [jobLocation, setJobLocation] = useState('None');
   const navigate = useNavigate();
   const userId = localStorage.getItem('user_id');
   React.useEffect(() => {
@@ -30,9 +30,14 @@ function User() {
           "user_id": localStorage.getItem('user_id')
           }
         });
-        console.log(response.data)
-        setJobType(response.data.jobType);
-        setJobLocation(response.data.jobLocation);
+        
+        if (response.data && response.data.preference) {
+          const { location, job_type } = response.data.preference;
+          if (location !== 'any' || job_type !== 'any') {
+            setJobType(job_type);
+            setJobLocation(location);
+          }
+        }
       } catch (error) {
         console.error('Failed to fetch preferences:', error);
       }

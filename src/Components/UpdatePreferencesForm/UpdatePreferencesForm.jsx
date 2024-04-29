@@ -65,6 +65,11 @@ function UpdatePreferencesForm() {
             <option value="Brooklyn, NY">Brooklyn, NY</option>
             <option value="Berkeley Heights, NJ">Berkeley Heights, NJ</option>
             <option value="Austin, TX">Austin, TX</option>
+            <option value="San Jose, CA">San Jose, CA</option>
+            <option value="Santa Clara, CA">Santa Clara, CA</option>
+            <option value="Seattle, WA">Seattle, WA</option>
+            <option value="Remote">Remote</option>
+            <option value="Other">Other</option>
             onChange={(e) => setlocation(e.target.value)}
           </select>
 

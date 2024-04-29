@@ -194,7 +194,6 @@ function Reports() {
     const fetchReports = () => {
         axios.get(`${REPORTS_ENDPOINT}`)
         .then(({ data }) => {
-            setError("this is a test")
             setReports(data);
 
 

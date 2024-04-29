@@ -107,7 +107,7 @@ function Job({ job, setError}) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const { isLoggedIn, isAdmin } = useAuth();
 
-  
+
   const [shouldDelete, setShouldDelete] = useState(false);
   const [editing, setEditing] = useState(false);
   const [company_value, setCompany] = useState(company);

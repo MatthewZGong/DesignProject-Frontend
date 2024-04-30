@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { BACKEND_URL } from '../../constants';
 
-const UPDATE_Information_ENDPOINT = `${BACKEND_URL}/UpdateUserInfo`;
+const UPDATE_Information_ENDPOINT = `${BACKEND_URL}/update_user_info`;
 
 function UpdateInformation() {
   const [userid, setuserid] = useState(localStorage.getItem('user_id') || null);
@@ -18,10 +18,11 @@ function UpdateInformation() {
     e.preventDefault();
     setError('');
     setuserid(userid);
+    
     const queryParams = new URLSearchParams({
       _id: userid,
-      username: username, 
-      email: email,
+      new_username: username, 
+      new_email: email,
     }).toString();
   
     // Construct the URL with query parameters
@@ -30,9 +31,9 @@ function UpdateInformation() {
     try {
       // Send the PUT request
       const response = await axios.put(urlWithParams);
-      console.log(userid);
+      localStorage.setItem('username', username);
       console.log('Information Updated Successfully:', response.data);
-      navigate('/');
+      navigate('/User');
     } catch (error) {
       console.error('There was an error updating user information:', error);
       setError(error.response?.data?.message || 'Failed to update user information. Please try again.');

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { BACKEND_URL } from '../../constants';
 
-const UPDATE_PREFERENCES_ENDPOINT = `${BACKEND_URL}/update-preferences`;
+const UPDATE_PREFERENCES_ENDPOINT = `${BACKEND_URL}/update_preferences`;
 
 function UpdatePreferencesForm() {
   const [user_id, setuserid] = useState('');
@@ -19,7 +19,7 @@ function UpdatePreferencesForm() {
     e.preventDefault();
     setError('');
     setuserid(user_id);
-  
+    console.log(jobtype);
     const queryParams = new URLSearchParams({
       user_id: localStorage.getItem('user_id'), 
       location: location,   
@@ -34,7 +34,7 @@ function UpdatePreferencesForm() {
       const response = await axios.put(urlWithParams, null);
       console.log(user_id, location, jobtype);
       console.log('Preferences Updated Successfully:', response.data);
-      navigate('/');
+      navigate('/User');
     } catch (error) {
       console.error('There was an error updating user preferences:', error);
       setError(error.response?.data?.message || 'Failed to update user preferences. Please try again.');
@@ -45,21 +45,12 @@ function UpdatePreferencesForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        {/* <div>
-          <label htmlFor="userid">Userid:</label>
-          <input 
-            type="text"
-            id="userid"
-            value={userid}
-            onChange={(e) => setuserid(e.target.value)}
-          />
-        </div> */}
         <div>
           <label htmlFor="location">location:</label>
           <p>                       </p>
           <p>                       </p>
-
-          <select>
+          <select id="location" value={location} onChange={(e) => setlocation(e.target.value)}>
+            <option value="">-- Select Location --</option>
             <option value="New York, NY">New York, NY</option>
             <option value="Jersey City, NJ">Jersey City, NJ</option>
             <option value="Brooklyn, NY">Brooklyn, NY</option>
@@ -70,41 +61,27 @@ function UpdatePreferencesForm() {
             <option value="Seattle, WA">Seattle, WA</option>
             <option value="Remote">Remote</option>
             <option value="Other">Other</option>
-            onChange={(e) => setlocation(e.target.value)}
           </select>
-
-          {/* <input
-            type="text"
-            id="location"
-            value={location}
-            onChange={(e) => setlocation(e.target.value)}
-          /> */}
         </div>
         <div>
-          <label htmlFor="jobtype">jobtype:</label>
-          <p>                       </p>
-          <p>                       </p>
-      
-          {/* <input
-            type="jobtype"
-            id="jobtype"
-            value={jobtype}
-            onChange={(e) => setjobtype(e.target.value)}
-          /> */}
-          <select>
-            <option value="SWE">SWE</option>
-            <option value="Machine Learning">Machine Learning</option>
-            <option value="Front End">Front End</option>
-            <option value="Back End">Back End</option>
-            <option value="Artificial Intelligence">Artificial Intelligence</option>
-            <option value="Junior SWE">Junior SWE</option>
-            <option value="STEM Teacher">STEM Teacher</option>
-            <option value="Desktop Support">Desktop Support</option>
-            <option value="Cybersecurity">Cybersecurity</option>
-            <option value="OS Engineer">OS Engineer</option>
-            onChange={(e) => setjobtype(e.target.value)}
-          </select>
-        </div>
+        <label htmlFor="jobtype">Job Type:</label>
+        <p>                       </p>
+        <p>                       </p>
+        <select id="jobtype" value={jobtype} onChange={(e) => setjobtype(e.target.value)}>
+        <option value="">-- Select Job Type --</option>
+          <option value="SWE">SWE</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="Front End">Front End</option>
+          <option value="Back End">Back End</option>
+          <option value="Artificial Intelligence">Artificial Intelligence</option>
+          <option value="Junior SWE">Junior SWE</option>
+          <option value="STEM Teacher">STEM Teacher</option>
+          <option value="Desktop Support">Desktop Support</option>
+          <option value="Cybersecurity">Cybersecurity</option>
+          <option value="OS Engineer">OS Engineer</option>
+        </select>
+      </div>
+
         {error && <div style={{ color: 'red' }}>{error}</div>}
         <p>                       </p>
         <button type="submit">Update Preferences</button>

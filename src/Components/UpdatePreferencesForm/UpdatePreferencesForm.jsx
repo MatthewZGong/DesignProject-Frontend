@@ -50,7 +50,7 @@ function UpdatePreferencesForm() {
           <p>                       </p>
           <p>                       </p>
           <select id="location" value={location} onChange={(e) => setlocation(e.target.value)}
-          style={{ width: '250px', height: '40px', padding: '10px' }}>
+          style={{ width: '300px', height: '60px', padding: '10px' }}>
             <option value="">-- Select Location --</option>
             <option value="New York, NY">New York, NY</option>
             <option value="Jersey City, NJ">Jersey City, NJ</option>
@@ -69,7 +69,7 @@ function UpdatePreferencesForm() {
         <p>                       </p>
         <p>                       </p>
         <select id="jobtype" value={jobtype} onChange={(e) => setjobtype(e.target.value)} 
-        style={{ width: '250px', height: '40px', padding: '10px'}}>
+        style={{ width: '300px', height: '60px', padding: '10px'}}>
         <option value="">-- Select Job Type --</option>
           <option value="SWE">SWE</option>
           <option value="Machine Learning">Machine Learning</option>

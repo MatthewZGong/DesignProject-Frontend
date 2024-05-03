@@ -15,7 +15,7 @@ function Home() {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>Welcome to the Job Board</h1>
       <img src={logo} alt="Logo" />
       <br />

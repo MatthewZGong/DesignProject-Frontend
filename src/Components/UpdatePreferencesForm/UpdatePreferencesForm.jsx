@@ -46,10 +46,11 @@ function UpdatePreferencesForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="location">location:</label>
+          <label htmlFor="location">Location:</label>
           <p>                       </p>
           <p>                       </p>
-          <select id="location" value={location} onChange={(e) => setlocation(e.target.value)}>
+          <select id="location" value={location} onChange={(e) => setlocation(e.target.value)}
+          style={{ width: '250px', height: '40px', padding: '10px' }}>
             <option value="">-- Select Location --</option>
             <option value="New York, NY">New York, NY</option>
             <option value="Jersey City, NJ">Jersey City, NJ</option>
@@ -67,7 +68,8 @@ function UpdatePreferencesForm() {
         <label htmlFor="jobtype">Job Type:</label>
         <p>                       </p>
         <p>                       </p>
-        <select id="jobtype" value={jobtype} onChange={(e) => setjobtype(e.target.value)}>
+        <select id="jobtype" value={jobtype} onChange={(e) => setjobtype(e.target.value)} 
+        style={{ width: '250px', height: '40px', padding: '10px' }}>
         <option value="">-- Select Job Type --</option>
           <option value="SWE">SWE</option>
           <option value="Machine Learning">Machine Learning</option>

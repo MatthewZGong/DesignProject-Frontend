@@ -44,7 +44,7 @@ function UpdatePreferencesForm() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div>
           <label htmlFor="location">Location:</label>
           <p>                       </p>
@@ -69,7 +69,7 @@ function UpdatePreferencesForm() {
         <p>                       </p>
         <p>                       </p>
         <select id="jobtype" value={jobtype} onChange={(e) => setjobtype(e.target.value)} 
-        style={{ width: '250px', height: '40px', padding: '10px' }}>
+        style={{ width: '250px', height: '40px', padding: '10px'}}>
         <option value="">-- Select Job Type --</option>
           <option value="SWE">SWE</option>
           <option value="Machine Learning">Machine Learning</option>
@@ -86,7 +86,7 @@ function UpdatePreferencesForm() {
 
         {error && <div style={{ color: 'red' }}>{error}</div>}
         <p>                       </p>
-        <button type="submit">Update Preferences</button>
+        <button type="submit" style={{ margin: '10px' }}>Update Preferences</button>
       </form>
     </div>
   );

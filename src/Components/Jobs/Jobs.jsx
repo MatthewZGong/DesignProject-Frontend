@@ -5,6 +5,7 @@ import { useAuth } from '../../AuthContext';
 import { BACKEND_URL } from '../../constants';
 
 const JOBS_ENDPOINT = `${BACKEND_URL}/read_most_recent_jobs`;
+const SEARCH_JOBS_ENDPOINT = `${BACKEND_URL}/search_jobs_by_vector`;
 const ADD_JOB_ENDPOINT = `${BACKEND_URL}/add_new_job`;
 const REPORT_ENDPOINT = `${BACKEND_URL}/add_user_report`;
 const DELETE_ENDPOINT = `${BACKEND_URL}/admin_delete_jobs`;
@@ -110,13 +111,21 @@ function Job({ job, setError}) {
 
   const [shouldDelete, setShouldDelete] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [company_value, setCompany] = useState(company);
-  const [date_value, setDate] = useState(date);
-  const [job_description_value, setJobDescription] = useState(job_description);
-  const [job_type_value, setJobType] = useState(job_type);
-  const [location_value, setLocation] = useState(location);
-  const [link_value, setLink] = useState(link);
-
+  const [company_value, setCompany] = useState('');
+  const [date_value, setDate] = useState('');
+  const [job_description_value, setJobDescription] = useState('');
+  const [job_type_value, setJobType] = useState('');
+  const [location_value, setLocation] = useState('');
+  const [link_value, setLink] = useState('');
+  
+  useEffect(() => {
+    setCompany(company);
+    setDate(date);
+    setJobDescription(job_description);
+    setJobType(job_type);
+    setLocation(location);
+    setLink(link);
+  }, [  company, date, job_description, job_type, location, link]);
 
 
 
@@ -241,21 +250,52 @@ function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [addingJob, setAddingJob] = useState(false);
   const { isLoggedIn, isAdmin } = useAuth();
-//   const [numberJobs, setNumberJobs] = useState('');
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const getUserPreference = () => {
+    axios.get(`${BACKEND_URL}/get_preferences`, {
+      params: {
+        "user_id": localStorage.getItem('user_id')
+      }
+    })
+    .then(({ data }) => {
+      console.log(data);
+      setSearchQuery(data.preference.job_type+" "+data.preference.location);
+    })
+    .catch((error) => {
+      console.error('Error fetching user preferences:', error);
+    });
+  };
+
+//   const [numberJobs, setNumberJobs] = useState(5);
 
   let number_jobs =5;
   const fetchJobs = () => {
-
-    axios.get(`${JOBS_ENDPOINT}?numbers=${number_jobs}`)
-      .then(({ data }) => {
-        console.log(data);
-        setJobs(data);
-        
-      })
-      .catch((error) => {
-        console.error('Error fetching jobs:', error);
-        setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
-      });
+    console.log(number_jobs);
+    if(searchQuery == ''){
+        axios.get(`${JOBS_ENDPOINT}?numbers=${number_jobs}`)
+        .then(({ data }) => {
+            console.log(data);
+            setJobs(data);
+            
+        })
+        .catch((error) => {
+            console.error('Error fetching jobs:', error);
+            setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
+        });
+    }else{ 
+        console.log(searchQuery);
+        axios.get(`${SEARCH_JOBS_ENDPOINT}`, { params: {"query": searchQuery, "limit": number_jobs}})
+        .then(({ data }) => {
+            console.log(data);
+            setJobs(data);
+        })
+        .catch((error) => {
+            console.error('Error fetching jobs:', error);
+            setError('There was a problem retrieving the list of job postings.' + SEARCH_JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
+        });
+    }
   };
 
 //   const fetchJobByPrefernces = (query) => {
@@ -276,10 +316,12 @@ function Jobs() {
 
   const showAddJobForm = () => { setAddingJob(true); };
   const hideAddJobForm = () => { setAddingJob(false); };
+  useEffect(() => {
+    getUserPreference();
+  }, []);
 
 //   useEffect(fetchJobs, []);
   
-  const reversedJobs = [...jobs].reverse();
 
   return (
     <div className="wrapper">
@@ -290,14 +332,27 @@ function Jobs() {
       )}
 
       </header>
-      <label htmlFor="recentJobsInput">Recent </label>
+      <div className="search-bar-container">
+            <input
+                type="text"
+                placeholder="Search..."
+                className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && fetchJobs()}
+             />
+      </div>
+      <div className="search-bar-container">
+      <label htmlFor="recentJobsInput" style = {{marginRight: '10px'}}>Number of jobs: </label>
         <input
             type="number"
             id="recentJobsInput"
-            onChange={handleJobCountChange}
+            placeholder={number_jobs}
+            onChange={(e) => handleJobCountChange(e)}
             min="1"
          />
-        <label htmlFor="recentJobsInput"> Jobs</label>
+      </div>
+
       <AddJobForm
         visible={addingJob}
         cancel={hideAddJobForm}
@@ -305,7 +360,7 @@ function Jobs() {
         setError={setError}
       />
       {error && <ErrorMessage message={error} />}
-      {reversedJobs.map((job) => <Job key={job.title} job={job} setError={setError} updateJobs={fetchJobs} />)}
+      {jobs.map((job) => <Job key={job.id} job={job} setError={setError}   />)}
       
     </div>
   );

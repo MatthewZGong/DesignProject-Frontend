@@ -308,7 +308,6 @@ function Jobs() {
         value = 1; 
     }
     number_jobs = Math.max(value,1);
-    fetchJobs();
   };
 
 

@@ -24,6 +24,16 @@ const formatDate = (date) => {
   return [year, month, day].join('-');
 };
 
+/**
+ * Renders a form for adding a new job posting.
+ *
+ * @param {Object} props - The component props.
+ * @param {boolean} props.visible - Determines if the form is visible.
+ * @param {function} props.cancel - The function to cancel the form.
+ * @param {function} props.fetchJobs - The function to fetch job postings.
+ * @param {function} props.setError - The function to set an error message.
+ * @return {JSX.Element|null} The rendered form or null if not visible.
+ */
 function AddJobForm({
   visible,
   cancel,
@@ -99,6 +109,14 @@ ErrorMessage.propTypes = {
 
 
 
+/**
+ * Renders a job component with the given job data.
+ *
+ * @param {Object} props - The props object containing the job data.
+ * @param {Object} props.job - The job object containing the job details.
+ * @param {Function} props.setError - The function to set an error message.
+ * @return {JSX.Element} The rendered job component.
+ */
 function Job({ job, setError}) {
   const handleChange = (setter) => (event) => setter(event.target.value);
   const {company, date, job_description, job_type, location, link, job_id}  = job; 
@@ -241,10 +259,13 @@ Job.propTypes = {
 };
 
 
-// function jobsObjectToArray({ Data }) {
-//   return Object.keys(Data).map(key => Data[key]);
-// }
 
+
+/**
+ * Renders a component that displays a list of job postings and allows the user to search and filter them.
+ *
+ * @return {JSX.Element} The rendered component.
+ */
 function Jobs() {
   const [error, setError] = useState('');
   const [jobs, setJobs] = useState([]);
@@ -253,6 +274,11 @@ function Jobs() {
 
   const [searchQuery, setSearchQuery] = useState('');
 
+  /**
+   * Fetches the user's preferences from the backend and sets the search query based on the response.
+   *
+   * @return {void} No return value
+   */
   const getUserPreference = () => {
     axios.get(`${BACKEND_URL}/get_preferences`, {
       params: {
@@ -260,7 +286,6 @@ function Jobs() {
       }
     })
     .then(({ data }) => {
-      console.log(data);
       setSearchQuery(data.preference.job_type+" "+data.preference.location);
     })
     .catch((error) => {
@@ -268,15 +293,18 @@ function Jobs() {
     });
   };
 
-//   const [numberJobs, setNumberJobs] = useState(5);
 
   let number_jobs =5;
+    /**
+     * Fetches job postings based on search query and number of jobs to fetch.
+     *
+     * @return {Promise<void>} Resolves when the job postings are successfully fetched and updated in state.
+     *                         Rejects with an error message if there was a problem retrieving the job postings.
+     */
   const fetchJobs = () => {
-    console.log(number_jobs);
     if(searchQuery == ''){
         axios.get(`${JOBS_ENDPOINT}?numbers=${number_jobs}`)
         .then(({ data }) => {
-            console.log(data);
             setJobs(data);
             
         })
@@ -285,10 +313,8 @@ function Jobs() {
             setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
         });
     }else{ 
-        console.log(searchQuery);
         axios.get(`${SEARCH_JOBS_ENDPOINT}`, { params: {"query": searchQuery, "limit": number_jobs}})
         .then(({ data }) => {
-            console.log(data);
             setJobs(data);
         })
         .catch((error) => {
@@ -298,9 +324,7 @@ function Jobs() {
     }
   };
 
-//   const fetchJobByPrefernces = (query) => {
       
-//   }
   const handleJobCountChange = (e) => {
     // Ensure only positive integers are accepted
     var value = e.target.value.replace(/\D/, ''); // remove non-digit characters

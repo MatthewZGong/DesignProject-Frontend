@@ -12,7 +12,6 @@ import Jobs from './Components/Jobs';
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
 import Home from './Components/Home';
-import UpdatePreferences from './Components/UpdatePreferences';
 import User from './Components/User';
 import DeleteUser from './Components/DeleteUser';
 import UpdatePreferencesForm from './Components/UpdatePreferencesForm';
@@ -31,7 +30,6 @@ function App() {
         <Route path="jobs" element={<Jobs />} />
         <Route path="login" element={<Login />} />
         <Route path="createAccount" element={<CreateAccount />} />
-        <Route path="updatePreferences" element={<UpdatePreferences />} />
         <Route path="updatePreferencesForm" element={<UpdatePreferencesForm />} />
         <Route path="updateInformation" element={<UpdateInformation />} />
         <Route path="user" element={<User />} />

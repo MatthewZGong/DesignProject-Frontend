@@ -56,9 +56,6 @@ function User() {
   const UpdateUserPreference = () => {
     navigate('/UpdatePreferencesForm')
   };
-  const ViewJobsbyPreference = () => {
-    navigate('/UpdatePreferences')
-  };
   const DeleteUser = () => {
     console.log("test");
     axios.delete(`${BACKEND_URL}/delete-account`, {
@@ -93,15 +90,14 @@ function User() {
       </ul>
       <button onClick={UpdateUserInformation}>Update User Information</button>
       <button onClick={UpdateUserPreference}>Update User Preference</button>
-      <button onClick={ViewJobsbyPreference}>View Jobs by Preference</button>
-        <button onClick={() => setShowConfirmation(true)}>Delete Account</button>
-        {showConfirmation && (
+      <button onClick={() => setShowConfirmation(true)}>Delete Account</button>
+      {showConfirmation && (
             <div className="confirmation-dialog">
             <p>Are you sure you want to delete your account?</p>
             <button onClick={DeleteUser}>Yes, Delete</button>
             <button onClick={() => setShowConfirmation(false)}>Cancel</button>
             </div>
-        )}
+       )}
 
     </div>
 

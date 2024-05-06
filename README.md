@@ -1,49 +1,57 @@
-# Requirements
+# Job Application App
 
+This is a React application that provides various functionalities related to job applications and user management.
+
+## Features
+
+1. Navigation: The app includes a navbar component for easy navigation between different pages.
+2. Authentication: The app uses an AuthProvider for authentication purposes.
+3. Home Page: Displays the main landing page of the application.
+4. Jobs Page: Allows users to view and interact with job listings.
+5. Login: Provides a login page for users to authenticate and access their accounts.
+6. Create Account: Allows new users to create an account.
+7. Update Preferences: Enables users to update their job preferences.
+8. Update Information: Allows users to update their personal information.
+9. User Profile: Displays the user's profile information.
+10. Delete User: Provides an option for users to delete their accounts.
+11. Reports: Generates reports related to job applications and user activity.
+
+## Requirements
 [Node.js](https://nodejs.org/en/download) is required for this.
 
-# Getting started
-
+## Getting started
 1. `npx create-react-app my-app`
 2. `cd my-app`
 3. `npm install axios`
 4. `npm install react-router-dom`
+5. `./cloud.sh` or `./local.sh`
 
-# Possible Errors
+## Folder Structure
 
-Backend needs `flask_cors` in order to serve data to another site.
-Since this React app has a different protocol / hostname / port combination than the backend,
-an error will be thrown by the browser unless the backend has a certain header in its responses.
+The application follows a standard React folder structure:
 
-`$ pip install -U flask-cors`
+- `src/`
+  - `Components/`
+    - `Navbar.js`: Navigation bar
+    - `Jobs.js`: Job display page and job-related api calls
+    - `Login.js`: Login form
+    - `CreateAccount.js`: Create account form
+    - `Home.js`: Home page
+    - `User.js`: User profile
+    - `DeleteUser.js`: Deleting a user account
+    - `UpdatePreferencesForm.js`: Updating user preferences form.
+    - `UpdateInformation.js`: Updating user information
+    - `Reports.js`: Generating Reports.
+  - `App.js`: Main component
+  - `AuthContext.js`: Authentication context provider
+  - `App.css`: Styling
+- `public/`
+  - `index.html`: Main HTML file of the application.
 
-```
-from flask import Flask
-from flask_cors import CORS
+## Dependencies
 
-app = Flask(__name__)
-CORS(app)
+The application uses the following dependencies:
 
-@app.route("/")
-def helloWorld():
-  return "Hello, cross-origin-world!"
-```
-
-# Creating the Router
-
-Rather than creating different files for different pages, React is used for single-page
-web apps. They have the functionality of multiple pages, but routing is done in the browser
-rather than on the server.
-
-# Creating the Navbar
-
-React's component structure allows modularity - rather than having to write out a navbar in
-multiple pages, we can write one and import it where needed.
-
-# Creating the list of Games
-
-Use axios to send a GET request. Render the response in the browser.
-
-# Creating the Add Game button
-
-Use axios to send a POST request.
+- `react`: JavaScript library for building user interfaces.
+- `react-router-dom`: Routing library for React applications.
+- `axios`: Promise-based HTTP client for making API requests.

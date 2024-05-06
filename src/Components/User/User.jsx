@@ -63,11 +63,6 @@ function User() {
     navigate('/UpdatePreferencesForm');
   };
 
-  // Function to navigate to the view jobs by preference page
-  const ViewJobsbyPreference = () => {
-    navigate('/UpdatePreferences');
-  };
-
   // Function to delete the user account
   const DeleteUser = () => {
     console.log("test");
@@ -100,16 +95,6 @@ function User() {
       </ul>
       <button onClick={UpdateUserInformation}>Update User Information</button>
       <button onClick={UpdateUserPreference}>Update User Preference</button>
-      <button onClick={() => setShowConfirmation(true)}>Delete Account</button>
-      {showConfirmation && (
-            <div className="confirmation-dialog">
-            <p>Are you sure you want to delete your account?</p>
-            <button onClick={DeleteUser}>Yes, Delete</button>
-            <button onClick={() => setShowConfirmation(false)}>Cancel</button>
-            </div>
-       )}
-
-      <button onClick={ViewJobsbyPreference}>View Jobs by Preference</button>
       <button onClick={() => setShowConfirmation(true)}>Delete Account</button>
       {/* Render the confirmation dialog if showConfirmation is true */}
       {showConfirmation && (

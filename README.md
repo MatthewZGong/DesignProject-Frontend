@@ -8,6 +8,9 @@ This is a React application that provides various functionalities related to job
 2. Authentication: The app uses an AuthProvider for authentication purposes.
 3. Home Page: Displays the main landing page of the application.
 4. Jobs Page: Allows users to view and interact with job listings.
+    - users can view all jobs and search jobs 
+    - by default recent jobs are displayed
+    - users can search for jobs through a search bar that is powered by a vector search
 5. Login: Provides a login page for users to authenticate and access their accounts.
 6. Create Account: Allows new users to create an account.
 7. Update Preferences: Enables users to update their job preferences.

@@ -14,7 +14,7 @@ This is a React application that provides various functionalities related to job
 8. Update Information: Allows users to update their personal information.
 9. User Profile: Displays the user's profile information.
 10. Delete User: Provides an option for users to delete their accounts.
-11. Reports: Generates reports related to job applications and user activity.
+11. Reports: Allows admins to read and interact with user related reports to job applications and user activity.
 
 ## Requirements
 [Node.js](https://nodejs.org/en/download) is required for this.

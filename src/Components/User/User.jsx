@@ -66,7 +66,7 @@ function User() {
   // Function to delete the user account
   const DeleteUser = () => {
     console.log("test");
-    axios.delete(`${BACKEND_URL}/delete-account`, {
+    axios.delete(`${BACKEND_URL}/delete_account`, {
       params: { "user_id": localStorage.getItem('user_id') }
     })
       .then(response => {

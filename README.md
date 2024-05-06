@@ -22,9 +22,8 @@ This is a React application that provides various functionalities related to job
 ## Getting started
 1. `npx create-react-app my-app`
 2. `cd my-app`
-3. `npm install axios`
-4. `npm install react-router-dom`
-5. `./cloud.sh` or `./local.sh`
+3. `npm install`
+4. `./cloud.sh` or `./local.sh`
 
 ## Folder Structure
 

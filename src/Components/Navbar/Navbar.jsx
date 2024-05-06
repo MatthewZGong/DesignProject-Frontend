@@ -41,11 +41,6 @@ function Navbar() {
             <Link to="/Reports">Reports</Link>
           </li>
         )}
-        {isAdmin && (
-          <li>
-            <Link to="/delete-user">Delete User</Link>
-          </li>
-        )}
         <ul className="nav_bar_login">
           <li>
             <Link to={isLoggedIn ? '/user' : '/login'}>

@@ -20,10 +20,8 @@ This is a React application that provides various functionalities related to job
 [Node.js](https://nodejs.org/en/download) is required for this.
 
 ## Getting started
-1. `npx create-react-app my-app`
-2. `cd my-app`
-3. `npm install`
-4. `./cloud.sh` or `./local.sh`
+1. `npm install`
+2. `./cloud.sh` or `./local.sh`
 
 ## Folder Structure
 

@@ -23,6 +23,7 @@ This is a React application that provides various functionalities related to job
 [Node.js](https://nodejs.org/en/download) is required for this.
 
 ## Getting started
+0. Clone and cd into the repo
 1. `npm install`
 2. `./cloud.sh` or `./local.sh`
 

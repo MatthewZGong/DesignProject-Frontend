@@ -263,6 +263,7 @@ function Jobs() {
   const { isLoggedIn, isAdmin } = useAuth();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchQueryDisplay, setSearchQueryDisplay] = useState("Most Recent Jobs");
 
   // Function to fetch user preferences
   const getUserPreference = () => {
@@ -286,6 +287,7 @@ function Jobs() {
   const fetchJobs = () => {
     console.log(number_jobs);
     if (searchQuery === '') {
+      setSearchQueryDisplay("Most Recent Jobs");
       axios.get(`${JOBS_ENDPOINT}?numbers=${number_jobs}`)
         .then(({ data }) => {
           console.log(data);
@@ -296,6 +298,7 @@ function Jobs() {
           setError('There was a problem retrieving the list of job postings.' + JOBS_ENDPOINT + process.env.REACT_APP_BACKEND_URL);
         });
     } else {
+      setSearchQueryDisplay(`Search Results for "${searchQuery}"`);
       console.log(searchQuery);
       axios.get(`${SEARCH_JOBS_ENDPOINT}`, { params: { "query": searchQuery, "limit": number_jobs } })
         .then(({ data }) => {
@@ -355,6 +358,8 @@ function Jobs() {
           min="1"
         />
       </div>
+      
+      <h1 style={{textAlign: "center"}}>{searchQueryDisplay}</h1>
 
       <AddJobForm
         visible={addingJob}
@@ -362,6 +367,8 @@ function Jobs() {
         fetchJobs={fetchJobs}
         setError={setError}
       />
+
+
       {error && <ErrorMessage message={error} />}
       {jobs.map((job) => <Job key={job.id} job={job} setError={setError} />)}
     </div>

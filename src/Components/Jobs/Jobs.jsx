@@ -273,8 +273,17 @@ function Jobs() {
       }
     })
     .then(({ data }) => {
-      console.log(data);
-      setSearchQuery(data.preference.job_type + " " + data.preference.location);
+      let jobType = data.preference.job_type;
+      let location = data.preference.location;
+      if (jobType === 'any') {
+        jobType = "";
+      }
+      if (location === 'any') {
+        location = "";
+      }
+      if (jobType != "" || location != "") {
+        setSearchQuery(jobType + " " + location);
+      }
     })
     .catch((error) => {
       console.error('Error fetching user preferences:', error);

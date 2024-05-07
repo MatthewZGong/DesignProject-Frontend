@@ -283,6 +283,8 @@ function Jobs() {
       }
       if (jobType != "" || location != "") {
         setSearchQuery(jobType + " " + location);
+      }else {
+        setSearchQuery("");
       }
     })
     .catch((error) => {

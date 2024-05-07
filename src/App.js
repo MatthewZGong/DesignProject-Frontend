@@ -7,7 +7,6 @@ import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
 import Home from './Components/Home';
 import User from './Components/User';
-import DeleteUser from './Components/DeleteUser';
 import UpdatePreferencesForm from './Components/UpdatePreferencesForm';
 import UpdateInformation from './Components/UpdateInformation';
 import Reports from './Components/Reports';
@@ -43,9 +42,6 @@ function App() {
 
           {/* Route for the user page */}
           <Route path="user" element={<User />} />
-
-          {/* Route for the delete user page */}
-          <Route path="DeleteUser" element={<DeleteUser />} />
 
           {/* Route for the reports page */}
           <Route path="Reports" element={<Reports />} />
